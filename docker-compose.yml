@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image : mongo
+    container_name: mongodb
+    environment:
+    - PUID=1000
+    - PGID=1000
+    volumes:
+    - ./database:/data/db
+    ports:
+    - 27017:27017
+    restart: unless-stopped
+
+  cmwb:
+    build: .
+    image: cmwb
+    command: npm run local
+    ports:
+      - 7000:7000
+
+  wslsp:
+    build: 
+      context: .
+      dockerfile: wslsp.Dockerfile
+    image: wslsp
+    command: npm run server
+    ports:
+      - 7999:7999

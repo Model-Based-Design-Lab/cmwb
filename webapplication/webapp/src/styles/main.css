@@ -1,0 +1,97 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+thead,
+tbody {
+    font-family: "Montserrat", sans-serif;
+    color: rgb(0, 0, 0);
+    background-color: #ffffff;
+}
+
+.selectedModel {
+    color: rgb(255, 0, 0);
+    font-weight: bold;
+}
+
+.selectedUser {
+    color: rgb(255, 0, 0);
+    font-weight: bold;
+}
+
+.modal {
+    color: black;
+}
+
+.modal-90w {
+    width: 90%;
+    height: 90%;
+    max-width: 90%;
+    color: black;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:active {
+    color: #007bff;
+    text-decoration: none;
+}
+
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.AnalysisConsole {
+    background-color:gray;
+    padding: 20px;
+    margin: 20px;
+}
+.AnalysisConsoleText {
+    color: white;
+}
+
+.ProgressNote {
+    background-color:#28a745;
+    color: white;
+    padding: 20px;
+}
+
+.Preview {
+    margin: 20px;
+}
+
+nav {
+    float: left;
+    width: 130px;
+    height: 100%;
+  }
+
+article {
+    padding: 20px;
+    overflow: auto;
+}
+
+.warning {
+    background-color: darkred;
+    color: white;
+}
+
+.success {
+    background-color: darkgreen;
+    color: white;
+}

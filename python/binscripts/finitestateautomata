@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source ./bin/python/compmod_env/bin/activate
+finitestateautomata "$@"
+

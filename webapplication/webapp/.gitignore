@@ -1,0 +1,6 @@
+/src/.next/
+/codegenoutput/*
+/dist/*
+/logs/*
+/bin/*
+/node_modules

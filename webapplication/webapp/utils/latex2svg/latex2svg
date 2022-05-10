@@ -1,0 +1,3 @@
+#!/bin/bash
+
+node ./bin/latex2svg/latex2svg.js $1

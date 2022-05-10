@@ -1,0 +1,13 @@
+[submodule "python/quizzes/text2qti"]
+	path = python/quizzes/text2qti
+	url = https://github.com/MarcG-TUE/text2qti.git
+	branch = no-duplicates-check
+[submodule "cmlang"]
+	path = cmlang
+	url = https://github.com/Model-Based-Design-Lab/cmlang.git
+[submodule "cmlib"]
+	path = cmlib
+	url = https://github.com/Model-Based-Design-Lab/cmlib.git
+[submodule "cmtrace"]
+	path = cmtrace
+	url = https://github.com/Model-Based-Design-Lab/cmtrace.git
