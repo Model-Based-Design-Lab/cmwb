@@ -1,0 +1,17 @@
+{
+    "description": "question.md",
+    "models": [
+        {
+            "name": "Exercise 1", 
+            "file": "models/exercise1.dtmc"
+        }
+    ],
+    "answers": [
+        {
+            "type": "multipleChoice", 
+            "question": "What is the Markov Chain Type?", 
+            "choices": ["ergodic unichain", "non-ergodic unichain", "ergodic non-unichain", "non-ergodic non-unichain"], 
+            "solution": 0
+        }
+    ]
+}

@@ -18,7 +18,7 @@ If it occurs it leads to a failure on a test that was added for this purpose. In
 If the repository was cloned without recursively cloning submodules, clone them now.
 
 ``` sh
- git submodule update --init
+git submodule update --init
 ```
 
 The following will build and run the CMWB using [docker](docker.com).
