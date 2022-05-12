@@ -21,7 +21,7 @@ export function setupPassport(server: Express, passwordDb: PasswordUserDb, local
         },
         function(req, email, password, done) {
             // ask database to validate password
-            passwordDb.validatePassword(email, req.body.name)
+            passwordDb.validatePassword(email, password)
             .then(result => {
                 // if validation passed
                 if (result) {
