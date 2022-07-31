@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 import { isAdmin } from '../../../authentication/utils'
 import { Confirm } from '../../../components/Modal/Confirm'
 import Notification from '../../../components/Notification/Notification'
-import { ADMIN_USER_EDIT_PATH, GeneralGroup } from '../../../config/config'
+import { ADMIN_USER_EDIT_PATH, GeneralGroup, NoneGroup } from '../../../config/config'
 import { UserController } from '../../../controller/usercontroller'
 import { IExternalPasswordUser } from '../../../database/passwdbinterface'
 import { dateAndTimeString } from '../../../utils/utils'
@@ -71,7 +71,9 @@ export default class AdminEditUser extends React.Component<Props,State> {
         }
         // ensure that own group is included
         if (! groups.includes(this.state.user.group)) {
-            groups = groups.concat(this.state.user.group)
+            if (this.state.user.group != NoneGroup) {
+                groups = groups.concat(this.state.user.group)
+            }
         }
         var user = this.state.user
         user.accessibleGroups = groups

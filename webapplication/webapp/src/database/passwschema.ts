@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose'
 import crypto from 'crypto'
 
 import { getAccessGroupModelConnection, getPasswordUserModelConnection } from './passwdb'
-import { GeneralGroup } from '../config/config'
+import { GeneralGroup, NoneGroup } from '../config/config'
 
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Schema.Types.ObjectId
@@ -53,7 +53,7 @@ var PasswordUserSchema = new Schema({
 	group: {
 		type: String,
 		required: true,
-		default: "none"
+		default: NoneGroup
 	},
 	accessibleGroups: {
 		type: [String],

@@ -61,6 +61,7 @@ export const containerMongoDbHost = 'mongodb://mongodb:27017'
 // authentication settings
 // special groups
 export const GeneralGroup = "general"
+export const NoneGroup = "none"
 export const QuizGroup = "quiz"
 
 
