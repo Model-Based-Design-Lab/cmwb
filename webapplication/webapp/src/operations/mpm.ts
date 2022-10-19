@@ -1,6 +1,6 @@
 import { binLibMpm } from '../config/config'
 import { DomMPM } from '../config/model'
-import { fsReadFile, fsWriteFile } from '../utils/fsutils'
+import { fsReadCodegenFile, fsWriteFile } from '../utils/fsutils'
 import * as ops from './operations'
 
 export async function mpmOperationWithStringResult(mpm: string, operationBuilder: (modelFile: string, outputFile: string) => string): Promise<string> {
@@ -49,7 +49,7 @@ export async function precedencegraphGraphviz(mpm: string, matrix: string): Prom
 }
 
 export async function makePrecedenceGraphGraphviz(mpmFile: string, matrix: string, dotFile: string): Promise<void> {
-    const mpm = await fsReadFile(mpmFile)
+    const mpm = await fsReadCodegenFile(mpmFile)
     const graph = await precedencegraphGraphviz(mpm, matrix)
     await fsWriteFile(dotFile, graph)
 }

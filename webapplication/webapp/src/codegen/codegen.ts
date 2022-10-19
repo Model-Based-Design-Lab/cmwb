@@ -1,6 +1,6 @@
 import { logger } from '../config/winston'
 import { BinaryEncoding, codegenBin, codeGenOutputDir, graphvizBin, latex2SvgBin, previewDir, sdf3analyzeBin, sdf3analyzeFsmSadfBin, sdf3convertSdfSadfBin, cmtraceBin, webAppRoot } from "../config/config"
-import { ensureDirExists, ensureEmptyDir, fsDeleteFile, fsReadBinaryFile, fsReadDir, fsReadFile, fsRename, fsWriteFile, getAllFiles } from "../utils/fsutils"
+import { ensureDirExists, ensureEmptyDir, fsDeleteFile, fsReadBinaryCodegenFile, fsReadDir, fsReadCodegenFile, fsRename, fsWriteFile, getAllFiles } from "../utils/fsutils"
 import { cpExecute } from "../utils/cputils"
 import { DomDTMC, domExtensions, DomFSA, DomLTL, DomMPM, DomRegEx, DomSDF } from "../config/model"
 import * as libDtmc from '../operations/dtmc'
@@ -210,7 +210,7 @@ export abstract class CodeGenBase {
         return {
             logText: `\n\nRetrieving file content.\n`,
             func: async () => {
-                const content = await fsReadFile(`${this.modelOutDir()}/${this.nameWithoutSpaces}.${ext}`)
+                const content = await fsReadCodegenFile(`${this.modelOutDir()}/${this.nameWithoutSpaces}.${ext}`)
                 callBack(content)
                 return
             },
@@ -756,7 +756,7 @@ export class CodeGenSDF extends CodeGenBase {
 
 	public async getThroughput(): Promise<string> {
 		try {
-			const content = await fsReadFile(`${this.modelOutDir()}/${this.nameWithoutSpaces}.throughput.txt`)
+			const content = await fsReadCodegenFile(`${this.modelOutDir()}/${this.nameWithoutSpaces}.throughput.txt`)
 			// look for a line of the form: thr(testgraph) = 0.153846
 			const throughputRegexp = new RegExp('^thr\\(.*\\)\\s*=\\s*(\\S*)\\s*$', 'gm')
 			const result = throughputRegexp.exec(content.toString())
@@ -979,11 +979,11 @@ export function pathOfArtifact(model: string, art: String) {
 }
 
 export async function getArtifactContent (art: String): Promise<string> {
-	return await fsReadFile(CodeGenBase.artifactFile(art))
+	return await fsReadCodegenFile(CodeGenBase.artifactFile(art))
 }
 
 export async function getBinaryArtifactContent (art: String): Promise<string> {
-    return (await fsReadBinaryFile(CodeGenBase.artifactFile(art))).toString(BinaryEncoding)
+    return (await fsReadBinaryCodegenFile(CodeGenBase.artifactFile(art))).toString(BinaryEncoding)
 }
 
 

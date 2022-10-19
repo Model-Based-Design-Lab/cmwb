@@ -1,5 +1,5 @@
 import { previewDir } from "../config/config"
-import { checkFileExists, fsReadFile } from "../utils/fsutils"
+import { checkFileExists, fsReadCodegenFile } from "../utils/fsutils"
 import { hashString, onDomain } from "../utils/utils"
 import { CodeGenBase, CodeGenDTMC, CodeGenFSA, CodeGenLTL, CodeGenMPM, CodeGenRegEx, CodeGenSDF } from "./codegen"
 
@@ -49,5 +49,5 @@ export function makePreviewPromise (id: string, name: string, content: string, d
 }
 
 export async function getPreviewImage(previewPath: string) {
-    return await fsReadFile(`${previewDir}/${previewPath}`)
+    return await fsReadCodegenFile(`${previewDir}/${previewPath}`)
 }

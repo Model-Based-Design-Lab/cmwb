@@ -1,7 +1,7 @@
-import { QuizGroup, webAppRoot } from "../config/config";
+import { exercisesDir, QuizGroup, webAppRoot } from "../config/config";
 import { DomainExtensions, domains } from "../config/model";
 import { ModelsDb } from "../database/modelsdb";
-import { fsReadFile, fsReadJSONFile } from "../utils/fsutils";
+import { fsReadExerciseJSONFile, fsReadExercisesFile } from "../utils/fsutils";
 
 
 export type TModel = {
@@ -46,14 +46,14 @@ export async function createExercise(name: string, userId: string, modelsDb: Mod
 
 
 export async function loadExercise(name: string): Promise<TExercise> {
-    var ex = await fsReadJSONFile(`${webAppRoot}/exercises/${name}/exercise.json`)
+    var ex = await fsReadExerciseJSONFile(`${exercisesDir}/${name}/exercise.json`)
     return ex
 }
 
 async function createModels(ex: TExercise, modelsDb: ModelsDb): Promise<void> {
     for (var i=0 ; i< ex.models.length; i++){ 
         const m = ex.models[i]
-        const modelContent = await fsReadFile(`${webAppRoot}/exercises/${ex.name}/${m.file}`)
+        const modelContent = await fsReadExercisesFile(`${exercisesDir}/${ex.name}/${m.file}`)
         const domain = domains.find(d => m.file.endsWith(DomainExtensions.get(d)))
         const modelId = await modelsDb.newModel(m.name, domain, "Quiz", QuizGroup, ex.userId)
         await modelsDb.updateModelContent(modelId, modelContent, ex.userId)

@@ -1,6 +1,6 @@
 import { binLibDtmc } from '../config/config'
 import { DomDTMC, domExtensions } from '../config/model'
-import { fsReadFile, fsWriteFile } from '../utils/fsutils'
+import { fsReadCodegenFile, fsWriteFile } from '../utils/fsutils'
 import { operationWithStringResult, transformingOperation } from './operations'
 
 export async function transformingOperationDtmc(
@@ -22,7 +22,7 @@ export async function executionGraph (dtmc: string, numberOfSteps: number): Prom
 }
 
 export async function makeExecutionGraph(dtmcFile: string, numberOfSteps: number, graphFile: string): Promise<void> {
-    const dtmc = await fsReadFile(dtmcFile)
+    const dtmc = await fsReadCodegenFile(dtmcFile)
     const graph = await executionGraph(dtmc, numberOfSteps)
     await fsWriteFile(graphFile, graph)
 }

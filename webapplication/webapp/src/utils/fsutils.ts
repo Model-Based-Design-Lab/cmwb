@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { codeGenOutputDir } from '../config/config'
+import { codeGenOutputDir, exercisesDir } from '../config/config'
 import path from 'path'
 import tmp from 'tmp'
 
@@ -35,13 +35,50 @@ export async function fsReadFile(filename: string, encoding: string = 'utf8'): P
     })
 }
 
-export async function fsReadBinaryFile(filename: string, encoding: string = 'utf8'): Promise<Buffer> {
+export async function fsReadDirRestrictedFile(filename: string, allowedDir: string, encoding: string = 'utf8'): Promise<string> {
+    // read file contents
+    // only allowed inside the allowed directory
+    const absoluteAllowedDir = path.resolve(allowedDir)
+    const absoluteFileName = path.resolve(filename)
+    if (! (absoluteFileName.indexOf(absoluteAllowedDir) == 0)) throw new Error('fsReadDirRestrictedFile only works inside allowed dir')
+    return fsReadFile(filename, encoding)
+}
+
+
+export async function fsReadCodegenFile(filename: string, encoding: string = 'utf8'): Promise<string> {
+    // read file contents
+    // only allowed inside the codegen directory
+    return fsReadDirRestrictedFile(filename, codeGenOutputDir, encoding)
+}
+
+export async function fsReadExercisesFile(filename: string, encoding: string = 'utf8'): Promise<string> {
+    // read file contents
+    // only allowed inside the exercises directory
+    return fsReadDirRestrictedFile(filename, exercisesDir, encoding)
+}
+
+export async function fsReadBinaryFile(filename: string): Promise<Buffer> {
     return new Promise<Buffer>((resolve, reject) => {
         fs.readFile(filename, (error, data) => {
             if (error) reject(error)
             else resolve(data)
         })
     })
+}
+
+export async function fsReadBinaryDirRestrictedFile(filename: string, allowedDir: string): Promise<string> {
+    // read file contents
+    // only allowed inside the allowed directory
+    const absoluteAllowedDir = path.resolve(allowedDir)
+    const absoluteFileName = path.resolve(filename)
+    if (! (absoluteFileName.indexOf(absoluteAllowedDir) == 0)) throw new Error('fsReadBinaryDirRestrictedFile only works inside allowed dir')
+    return fsReadBinaryFile(filename)
+}
+
+export async function fsReadBinaryCodegenFile(filename: string): Promise<Buffer> {
+    // read binary file contents
+    // only allowed inside the codegen directory
+    return fsReadBinaryDirRestrictedFile(filename, codeGenOutputDir)
 }
 
 export async function fsReadJSONFile(filename: string, encoding: string = 'utf8'): Promise<any> {
@@ -52,6 +89,21 @@ export async function fsReadJSONFile(filename: string, encoding: string = 'utf8'
         })
     })
 }
+
+export async function fsReadDirRestrictedJSONFile(filename: string, allowedDir: string, encoding: string = 'utf8'): Promise<any> {
+    // read JSON file contents
+    // only allowed inside the allowed directory
+    const absoluteAllowedDir = path.resolve(allowedDir)
+    const absoluteFileName = path.resolve(filename)
+    if (! (absoluteFileName.indexOf(absoluteAllowedDir) == 0)) throw new Error('fsReadDirRestrictedJSONFile only works inside allowed dir')
+    return fsReadJSONFile(filename, encoding)
+}
+
+export async function fsReadExerciseJSONFile(filename: string, encoding: string = 'utf8'): Promise<any> {
+    return fsReadDirRestrictedJSONFile(filename, exercisesDir, encoding)
+}
+
+
 
 export async function fsReadDir(dir: string): Promise<string[]> {
     return new Promise((resolve, reject) => {
@@ -146,28 +198,30 @@ async function fsMkDir(path: string): Promise<void> {
 
 
 // ensure that the directory path exists and is empty
-export async function ensureEmptyDir(path: string): Promise<void> {
+export async function ensureEmptyDir(dirPath: string): Promise<void> {
     // check that path is inside the codegen dir, otherwise abort! abort!
-    if (! (path.indexOf(codeGenOutputDir) == 0)) throw new Error('ensureEmptyDir only works inside codegenoutput dir')
-    path = removeTrailingSlash(path)
-    if (await fsDirExists(path)) {
-        await deleteFolderRecursive(path)
+    const absolutePath = path.resolve(dirPath)
+    if (! (absolutePath.indexOf(codeGenOutputDir) == 0)) throw new Error('ensureEmptyDir only works inside codegenoutput dir')
+    dirPath = removeTrailingSlash(dirPath)
+    if (await fsDirExists(dirPath)) {
+        await deleteFolderRecursive(dirPath)
     }
-    await fsMkDir(path)
+    await fsMkDir(dirPath)
 }
 
 // ensure that the directory path exists
-export async function ensureDirExists(path: string): Promise<void> {
+export async function ensureDirExists(dirPath: string): Promise<void> {
     // check that path is inside the codegen dir, otherwise abort! abort!
-    if (! (path.indexOf(codeGenOutputDir) == 0)) throw new Error('ensureDir only works inside codegenoutput dir')
+    const absolutePath = path.resolve(dirPath)
+    if (! (absolutePath.indexOf(codeGenOutputDir) == 0)) throw new Error('ensureDir only works inside codegenoutput dir')
     // remove trailing / if any
-    if (path.slice(-1) == '/') path = path.substr(0, path.length-1)
+    if (dirPath.slice(-1) == '/') dirPath = dirPath.substr(0, dirPath.length-1)
     return new Promise(
 		(resolve, reject) => {
-			fs.access(path, fs.constants.R_OK, error => {
+			fs.access(dirPath, fs.constants.R_OK, error => {
                 if (! error) resolve()
                 // the directory does not exist, create it
-                fs.mkdir(path, err => {
+                fs.mkdir(dirPath, err => {
                     if (err) reject(err)
                     else resolve()
                 })

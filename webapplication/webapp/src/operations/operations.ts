@@ -1,7 +1,7 @@
 import { binLibFsa, binLibDtmc, binLibSdf } from "../config/config"
 import { DomFSA, DomRegEx, DomDTMC, DomSDF, domExtensions, DomLTL, DomMPM } from "../config/model"
 import { cpExecute } from "../utils/cputils"
-import { fsReadFile, newTempFileName, saveAsTempFile } from "../utils/fsutils"
+import { fsReadCodegenFile, newTempFileName, saveAsTempFile } from "../utils/fsutils"
 
 
 function _domainBin(dom: string) {
@@ -28,7 +28,7 @@ export async function operationWithGenericResult<TResult>(domain: string, model:
     const g = await newTempFileName('txt')
     const operation = operationBuilder(f, g)
     await cpExecute(operation)
-    const output = await fsReadFile(g)
+    const output = await fsReadCodegenFile(g)
     return resultExtractor(output)
 }
 
@@ -60,7 +60,7 @@ export async function transformingOperation (
         argsStr += `-${arg} ${argValue} `
     })
     await cpExecute(`"${_domainBin(domain)}" --operation ${operation} ${argsStr} ${f} > ${g} `)
-    return await fsReadFile(g)
+    return await fsReadCodegenFile(g)
 }
 
 export async function combiningOperationWithGenericResult<TResult> (domain: string, model1: string, model2: string, operationBuilder: (modelFile1: string, modelFile2: string, outputFile: string) => string, resultExtractor: (output: string) => TResult): Promise<TResult> {
@@ -69,7 +69,7 @@ export async function combiningOperationWithGenericResult<TResult> (domain: stri
     const g = await newTempFileName(domExtensions.get(domain))
     const operation = operationBuilder(f1, f2, g)
     await cpExecute(operation)
-    const output = await fsReadFile(g)
+    const output = await fsReadCodegenFile(g)
     return resultExtractor(output)
 }
 

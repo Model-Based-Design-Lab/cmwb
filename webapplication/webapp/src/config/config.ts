@@ -84,6 +84,7 @@ export const latex2SvgBin = `${appRoot}/bin/latex2svg/latex2svg`
 // export const graphvizBin = '/usr/bin/dot'
 export const graphvizBin = 'dot'
 export const codeGenOutputDir = `${appRoot}/codegenoutput`
+export const exercisesDir = `${webAppRoot}/exercises`
 export const previewDir = `${codeGenOutputDir}/previewcache`
 // export const tempDir = `${codeGenOutputDir}/temp`
 export const sdf3analyzeBin = '/home/es-admin/tools/sdf3/sdf3/build/release/Linux/bin/sdf3analyze-sdf'
