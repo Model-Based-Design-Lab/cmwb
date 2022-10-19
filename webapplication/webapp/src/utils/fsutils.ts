@@ -66,7 +66,7 @@ export async function fsReadBinaryFile(filename: string): Promise<Buffer> {
     })
 }
 
-export async function fsReadBinaryDirRestrictedFile(filename: string, allowedDir: string): Promise<string> {
+export async function fsReadBinaryDirRestrictedFile(filename: string, allowedDir: string): Promise<Buffer> {
     // read file contents
     // only allowed inside the allowed directory
     const absoluteAllowedDir = path.resolve(allowedDir)
