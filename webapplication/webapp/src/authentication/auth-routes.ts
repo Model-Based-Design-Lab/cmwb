@@ -21,9 +21,11 @@ router.post(LoginURL,
     }))
 
 // define the logout route
-router.get(LogoutURL, (req: any, res) => {
-    req.logout()
-    res.redirect(LoginURL)
+router.get(LogoutURL, (req: any, res, next) => {
+    req.logout(function(err: any) {
+        if (err) { return next(err) }
+        res.redirect(LoginURL)
+    })
 })
 
 // set up the signup route
