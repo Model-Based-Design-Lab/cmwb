@@ -103,8 +103,7 @@ export class MultipleSelectionModal extends React.Component<Props, State> {
                     okCallback={()=>this.handleCloseOK()}
                     cancelCallback={()=>this.handleCloseCancel()}
                     isOptional={this.state.isOptional}
-                >
-                </ModalFooter>
+                />
             </Modal>
         )
     }

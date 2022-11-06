@@ -1,5 +1,6 @@
-import { exercisesDir, QuizGroup, webAppRoot } from "../config/config";
+import { QuizGroup } from "../config/config";
 import { DomainExtensions, domains } from "../config/model";
+import { exercisesDir } from "../config/serverconfig";
 import { ModelsDb } from "../database/modelsdb";
 import { fsReadExerciseJSONFile, fsReadExercisesFile } from "../utils/fsutils";
 

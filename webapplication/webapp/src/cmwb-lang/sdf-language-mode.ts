@@ -1,9 +1,4 @@
-import * as monaco from "monaco-editor-core"
-
-// import { languages.IMonarchLanguage } from 'monaco-editor-core'
-// import ILanguage = monaco.languages.IMonarchLanguage
-// import language from "monaco-editor-core"
-
+import * as monaco from "monaco-editor";
 
 export const sdfMonarchLanguage = <monaco.languages.IMonarchLanguage> {
     // Set defaultToken to invalid to see what you do not tokenize yet

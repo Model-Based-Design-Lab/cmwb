@@ -122,8 +122,7 @@ export class OptionMultipleSelectionModal extends React.Component<Props, State> 
                     cancelCallback={()=>this.handleCloseCancel()}
                     noChoiceCallback={()=>this.handleCloseNoChoice()}
                     isOptional={this.state.isOptional}
-                >
-                </ModalFooter>
+                />
             </Modal>
         )
     }

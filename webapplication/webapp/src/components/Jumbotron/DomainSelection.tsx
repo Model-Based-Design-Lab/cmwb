@@ -1,7 +1,6 @@
 import { faCube } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React from "react"
-import { Jumbotron } from "react-bootstrap"
 import { darkenColor } from "../../utils/format"
 
 // properties for the component
@@ -30,7 +29,7 @@ export class DomainSelection extends React.Component<Props,State> {
 
     render() {
         return (
-            <Jumbotron style={{
+            <div className="jumbotron" style={{
                 backgroundColor: this.props.color,
                 textTransform: "capitalize",
                 fontSize: "large",
@@ -42,7 +41,7 @@ export class DomainSelection extends React.Component<Props,State> {
                 <FontAwesomeIcon className="w3-xxxlarge center" icon={faCube} color={darkenColor(this.props.color)} />
                 {'  '}{this.props.module}
                 </span>
-            </Jumbotron>
+            </div>
         )
     }
 }

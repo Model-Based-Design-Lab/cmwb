@@ -2,10 +2,11 @@ import mongoose from 'mongoose'
 import { modelTypes, IExternalCompModModel, typeScratch, typePublic, typeUser } from './modelsdbinterface'
 import { getCompModModel, ICompModModel, TCompModModel } from './modelsschema'
 import { Logger } from 'winston'
-import { dbName, ValidModelNameRegEx } from '../config/config'
+import { ValidModelNameRegEx } from '../config/config'
 import { DomainModules, domains, DomDTMC, DomFSA, DomLTL, DomMPM, DomSDF, ModelTemplates } from '../config/model'
 import { dbHandler, dbHandlerWithResult, getMongooseConnection, TErrorCallback, TVoidResultCallback } from './mongoose'
 import { CheckReadAccess, ReadAccessBarrier, WriteAccessBarrier } from './access'
+import { dbName } from '../config/serverconfig'
 
 var CompModModel: TCompModModel
 

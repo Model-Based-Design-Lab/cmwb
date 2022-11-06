@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, FormControl, InputGroup, Modal } from 'react-bootstrap'
+import { FormControl, InputGroup } from 'react-bootstrap'
 
 interface Props {
     question: string,
@@ -46,11 +46,9 @@ export class MultiEditText extends React.Component<Props, State> {
                 {
                             indices.map(n => (
                                 <InputGroup className="mb-3" key={n.toString()}>
-                                    <InputGroup.Prepend>
                                     <InputGroup.Text id="basic-addon3">
                                         {this.props.labels[n]}
                                     </InputGroup.Text>    
-                                    </InputGroup.Prepend>
                                 <FormControl 
                                 ref={n==0 ? this.textControl : null}
                                 placeholder={this.props.placeholders[n]}

@@ -1,4 +1,4 @@
-import { previewDir } from "../config/config"
+import { previewDir } from "../config/serverconfig"
 import { checkFileExists, fsReadCodegenFile } from "../utils/fsutils"
 import { hashString, onDomain } from "../utils/utils"
 import { CodeGenBase, CodeGenDTMC, CodeGenFSA, CodeGenLTL, CodeGenMPM, CodeGenRegEx, CodeGenSDF } from "./codegen"

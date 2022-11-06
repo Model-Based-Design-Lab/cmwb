@@ -103,8 +103,7 @@ export class OptionListOfItemsModal extends React.Component<Props, State> {
                         validate={this.state.validate}
                         onChange={(items: string[])=>this.setState({itemList: items})}
                         onKeyUp={(e: any) => this.handleKeyUp(e)}
-                    >
-                    </ListOfItems>
+                    />
                     { (this.state.showAdvanced) &&
                         <AdvancedOptions onChange={value=>{this.setState({advanced: value})}}></AdvancedOptions>
                     }
@@ -113,8 +112,7 @@ export class OptionListOfItemsModal extends React.Component<Props, State> {
                     validate={()=>this.state.validate(this.state.itemList)}
                     okCallback={()=>this.handleCloseOK()}
                     cancelCallback={()=>this.handleCloseCancel()}
-                >
-                </ModalFooter>
+                />
             </Modal>
         )
     }

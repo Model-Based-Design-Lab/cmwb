@@ -1,5 +1,5 @@
-import { binLibSdf } from '../config/config'
 import { domExtensions, DomMPM, DomSDF } from '../config/model'
+import { binLibSdf } from '../config/serverconfig'
 import * as ops from './operations'
 
 export async function sdfOperationWithStringResult(sdf: string, operationBuilder: (modelFile: string, outputFile: string) => string): Promise<string> {

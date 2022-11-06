@@ -2,13 +2,14 @@ import mongoose from 'mongoose'
 import { IExternalPasswordUser, IExternalAccessGroup } from './passwdbinterface'
 import { getAccessGroupModel, getPasswordUserModel, IAccessGroup, IPasswordUser, TAccessGroupModel, TPasswordUserModel } from './passwschema'
 import { Logger } from 'winston'
-import { GeneralGroup, passwordDbName, ResetPasswordTimeoutSeconds, SignupTokenExpirySeconds } from '../config/config'
+import { GeneralGroup, ResetPasswordTimeoutSeconds, SignupTokenExpirySeconds } from '../config/config'
 import crypto from 'crypto'
 import { dbHandler, dbHandlerWithResult, getMongooseConnection, ObjectIdToString } from './mongoose'
 import { sendResetPasswordEmail } from '../email/sendmail'
 import { secondsSince } from '../utils/utils'
 import { AdminAccessAsyncBarrier, LocalModeBarrier } from './access'
 import { MongoError } from 'mongodb'
+import { passwordDbName } from '../config/serverconfig'
 
 // connect to mongo db
 // database: cmwb_users

@@ -96,15 +96,13 @@ export class ListOfItemsModal extends React.Component<Props, State> {
                         validate={this.state.validate}
                         onChange={(items: string[])=>this.setState({itemList: items})}
                         onKeyUp={(e: any) => this.handleKeyUp(e)}
-                    >
-                    </ListOfItems>
+                    />
                 </Modal.Body>
                 <ModalFooter 
                     validate={()=>this.state.validate(this.state.itemList)}
                     okCallback={()=>this.handleCloseOK()}
                     cancelCallback={()=>this.handleCloseCancel()}
-                >
-                </ModalFooter>
+                />
             </Modal>
         )
     }

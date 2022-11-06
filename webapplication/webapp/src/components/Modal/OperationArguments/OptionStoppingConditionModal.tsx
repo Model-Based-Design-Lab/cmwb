@@ -138,8 +138,7 @@ export class OptionStoppingConditionModal extends React.Component<Props, State> 
                         validate={this.state.validate}
                         onChange={(values: IStoppingConditions)=>this.setState({values})}
                         onKeyUp={(e: any) => this.handleKeyUp(e)}
-                    >
-                    </StoppingCondition>
+                    />
                     { (this.state.showAdvanced) &&
                         <AdvancedOptions onChange={value=>{this.setState({advanced: value})}}></AdvancedOptions>
                     }
@@ -148,8 +147,7 @@ export class OptionStoppingConditionModal extends React.Component<Props, State> 
                     validate={()=>this.state.validate(this.state.values)}
                     okCallback={()=>this.handleCloseOK()}
                     cancelCallback={()=>this.handleCloseCancel()}
-                >
-                </ModalFooter>
+                />
             </Modal>
         )
     }

@@ -30,7 +30,7 @@ export default class extends React.Component<Props, State> {
     render() {
       return (
         <div>
-          <ReactMarkdown source={this.state.content} />
+          <ReactMarkdown children={this.state.content} />
         </div>
       )
     }

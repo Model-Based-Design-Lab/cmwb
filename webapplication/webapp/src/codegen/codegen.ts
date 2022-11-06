@@ -1,5 +1,5 @@
 import { logger } from '../config/winston'
-import { BinaryEncoding, codegenBin, codeGenOutputDir, graphvizBin, latex2SvgBin, previewDir, sdf3analyzeBin, sdf3analyzeFsmSadfBin, sdf3convertSdfSadfBin, cmtraceBin, webAppRoot } from "../config/config"
+import { BinaryEncoding } from "../config/config"
 import { ensureDirExists, ensureEmptyDir, fsDeleteFile, fsReadBinaryCodegenFile, fsReadDir, fsReadCodegenFile, fsRename, fsWriteFile, getAllFiles } from "../utils/fsutils"
 import { cpExecute } from "../utils/cputils"
 import { DomDTMC, domExtensions, DomFSA, DomLTL, DomMPM, DomRegEx, DomSDF } from "../config/model"
@@ -9,6 +9,7 @@ import { ganttTraceXml } from "../operations/sdf"
 import { vectorTraceOfEventAndVectorSequencesXml, vectorTraceXml } from "../operations/mpm"
 import { asNameWithoutSpaces, onDomain } from "../utils/utils"
 import path from "path"
+import { cmtraceBin, codegenBin, codeGenOutputDir, graphvizBin, latex2SvgBin, previewDir, sdf3analyzeBin, sdf3analyzeFsmSadfBin, sdf3convertSdfSadfBin } from '../config/serverconfig'
 
 
 // define type for tasks in code generation

@@ -1,5 +1,5 @@
-import { binLibFsa, binLibDtmc, binLibSdf } from "../config/config"
 import { DomFSA, DomRegEx, DomDTMC, DomSDF, domExtensions, DomLTL, DomMPM } from "../config/model"
+import { binLibDtmc, binLibFsa, binLibSdf } from "../config/serverconfig"
 import { cpExecute } from "../utils/cputils"
 import { fsReadCodegenFile, newTempFileName, saveAsTempFile } from "../utils/fsutils"
 

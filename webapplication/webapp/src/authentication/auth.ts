@@ -2,12 +2,13 @@ import {Express} from 'express'
 import passport from 'passport'
 import flash from 'connect-flash'
 import LocalStrategy from 'passport-local'
-import { BASE_PATH_RESTRICTED, GeneralGroup } from '../config/config'
+import { BASE_PATH_RESTRICTED } from '../config/config'
 import { PasswordUserDb } from '../database/passwdb'
 import { IExternalPasswordUser } from '../database/passwdbinterface'
 import authRoutes, { LoginURL } from './auth-routes'
 import { sendVerificationEmail } from '../email/sendmail'
 import { logger } from '../config/winston'
+import { GeneralGroup } from '../config/config'
 
 
 // setup the authentication to the express server using the provided database to access user information

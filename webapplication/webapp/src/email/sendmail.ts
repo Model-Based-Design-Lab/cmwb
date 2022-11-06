@@ -3,7 +3,8 @@ import Mail from 'nodemailer/lib/mailer'
 import requireText from 'require-text'
 import { Logger } from 'winston'
 // import { logger } from './config/winston'
-import { BASE_PATH, BASE_URL, MAIL_HOST, MAIL_HOST_PORT } from '../config/config'
+import { BASE_PATH, BASE_URL } from '../config/config'
+import { MAIL_HOST, MAIL_HOST_PORT } from '../config/serverconfig'
 import { logger } from '../config/winston'
 
 var transporter: Mail

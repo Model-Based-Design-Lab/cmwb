@@ -90,8 +90,7 @@ export class EditBooleanModal extends React.Component<Props, State> {
                     validate={()=>true}
                     okCallback={()=>this.handleCloseOK()}
                     cancelCallback={()=>this.handleCloseCancel()}
-                >
-                </ModalFooter>
+                />
             </Modal>
         )
     }

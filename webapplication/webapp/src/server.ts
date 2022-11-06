@@ -1,5 +1,5 @@
 import express from 'express'
-import { BASE_PATH, BASE_PATH_RESTRICTED, containerMongoDbHost, DEBUG_PORT, mongoDbHost, PORT } from "./config/config"
+import { BASE_PATH, BASE_PATH_RESTRICTED, DEBUG_PORT, PORT } from "./config/config"
 import http from 'http'
 import next from 'next'
 import session from 'express-session'
@@ -17,6 +17,7 @@ import { getModelsAPI } from './api/models'
 import { getAnalysisAPI } from './api/analysis/analysis'
 import { getQuizAPI } from './api/quiz'
 import { getPublicStaticFilesAPI, getRestrictedStaticFilesAPI } from './api/staticfiles'
+import { containerMongoDbHost, mongoDbHost } from './config/serverconfig'
 
 // check if we want to run in development or production mode
 var dev: boolean = true

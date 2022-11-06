@@ -114,8 +114,7 @@ export class OptionEditTextModal extends React.Component<Props, State> {
                     validate={()=>this.state.validate(this.state.value)}
                     okCallback={()=>this.handleCloseOK()}
                     cancelCallback={()=>this.handleCloseCancel()}
-                >
-                </ModalFooter>
+                />
             </Modal>
         )
     }

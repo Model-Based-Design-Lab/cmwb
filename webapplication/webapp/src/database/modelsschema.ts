@@ -21,7 +21,7 @@ export interface ICompModModel extends mongoose.Document {
 	isOwnedBy(userId: string): boolean
 }
 
-var CompModSchema = new Schema({
+var CompModSchema: mongoose.Schema<ICompModModel> = new Schema({
 	id: {
 		type: String,
 		required: false

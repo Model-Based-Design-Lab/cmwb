@@ -44,8 +44,9 @@ export function getUnrestrictedUsersAPI(modelsDb: ModelsDb, userDb: PasswordUser
         const {userId, token, password} = decodeQuery(req.query) as {userId: string, token: string, password: string}
         userDb.setPassword(userId, token, password)
         .then( () => {
-            req.logout()
-            res.send(okResponse({}))
+            req.logout({}, (err: any) => {
+                res.send(okResponse({}))
+            })
         })
         .catch( reason => 
             res.send(errorResponse(`Set password failed: ${reason}`))
@@ -92,7 +93,9 @@ export function getUnrestrictedUsersAPI(modelsDb: ModelsDb, userDb: PasswordUser
             await modelsDb.deleteUserModels(user.id)
             await userDb.deleteUser(user.id)
             if (! isAdmin) {
-                req.logout()
+                req.logout({}, (err: any) => {
+                    res.send(okResponse({}))                
+                })
             }
             res.send(okResponse({}))                
         } catch (reason) {

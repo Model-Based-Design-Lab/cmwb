@@ -116,8 +116,7 @@ export class OptionMultiEditTextModal extends React.Component<Props, State> {
                     validate={()=>this.state.validate(this.state.values)}
                     okCallback={()=>this.handleCloseOK()}
                     cancelCallback={()=>this.handleCloseCancel()}
-                >
-                </ModalFooter>
+                />
             </Modal>
         )
     }

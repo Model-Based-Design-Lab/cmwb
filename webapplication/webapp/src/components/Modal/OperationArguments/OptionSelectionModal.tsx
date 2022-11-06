@@ -119,8 +119,7 @@ export class OptionSelectionModal extends React.Component<Props, State> {
                     okCallback={()=>this.handleCloseOK()}
                     cancelCallback={()=>this.handleCloseCancel()}
                     showOKButton={this.state.showOKButton}
-                >
-                </ModalFooter>
+                />
             </Modal>
         )
     }

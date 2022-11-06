@@ -1,5 +1,5 @@
 import cp from 'child_process'
-import { DefaultChildProcessTimeoutSeconds } from '../config/config'
+import { DefaultChildProcessTimeoutSeconds } from '../config/serverconfig'
 
 export async function cpExecute(command: string, timeoutSeconds: number=DefaultChildProcessTimeoutSeconds): Promise<string> {
     return new Promise((resolve, reject) => {

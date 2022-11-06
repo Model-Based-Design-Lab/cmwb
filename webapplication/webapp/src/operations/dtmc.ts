@@ -1,5 +1,5 @@
-import { binLibDtmc } from '../config/config'
 import { DomDTMC, domExtensions } from '../config/model'
+import { binLibDtmc } from '../config/serverconfig'
 import { fsReadCodegenFile, fsWriteFile } from '../utils/fsutils'
 import { operationWithStringResult, transformingOperation } from './operations'
 

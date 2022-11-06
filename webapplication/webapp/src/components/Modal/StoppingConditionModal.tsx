@@ -141,15 +141,13 @@ export class StoppingConditionModal extends React.Component<Props, State> {
                         validate={this.state.validate}
                         onChange={(values: IStoppingConditions)=>this.setState({values})}
                         onKeyUp={(e: any) => this.handleKeyUp(e)}
-                    >
-                    </StoppingCondition>
+                    />
                 </Modal.Body>
                 <ModalFooter 
                     validate={()=>true}
                     okCallback={()=>this.handleCloseOK()}
                     cancelCallback={()=>this.handleCloseCancel()}
-                >
-                </ModalFooter>
+                />
             </Modal>
         )
     }

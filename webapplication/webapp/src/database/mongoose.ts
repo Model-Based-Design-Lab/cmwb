@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import { mongoDbHost } from '../config/config'
 import { MongoError, ObjectId } from "mongodb"
 
 var mongooseConnection: mongoose.Connection = null
@@ -7,7 +6,7 @@ var mongooseConnection: mongoose.Connection = null
 export function getMongooseConnection(host: string): Promise<mongoose.Connection> {
     return new Promise((resolve, reject) => {
 		if (mongooseConnection == null) {
-			mongoose.connect(host, { useNewUrlParser: true, useUnifiedTopology: true })
+			mongoose.connect(host, { })
 				.then(() => {
 					//Get the default connection
 					mongooseConnection = mongoose.connection
@@ -21,7 +20,7 @@ export function getMongooseConnection(host: string): Promise<mongoose.Connection
 }
 
 export function stringToObjectId(hexStringId: string) {
-	return mongoose.Types.ObjectId(hexStringId)
+	return new mongoose.Types.ObjectId(hexStringId)
 }
 
 export function ObjectIdToString(id: ObjectId) {

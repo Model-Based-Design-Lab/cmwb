@@ -1,8 +1,12 @@
-import { editor } from 'monaco-editor-core'
+import { editor } from 'monaco-editor'
 import React from 'react'
-import { Container } from 'react-bootstrap'
-import {createModel, installEditor, setupLanguage} from '../../cmwb-lang/setup'
+
+// import the global CSS imports of monaco-editor here, because next-js does not allow the module to import its own global CSS (https://github.com/vercel/next.js/blob/deprecated-main/errors/css-npm.md)
+// global imports have been disabled in next.config.js
+import 'monaco-editor/min/vs/editor/editor.main.css'
 import { CONTAINER_WSLSP_PATH, WSLSP_PATH } from '../../config/config'
+import { Container } from 'react-bootstrap'
+import { createModel, installEditor, setupLanguage } from '../../cmwb-lang/setup'
 
 export interface IEditorProps {
     localMode: boolean,
@@ -10,6 +14,7 @@ export interface IEditorProps {
     initialContent: string,
     onSetEditor?: (editor: any)=>void
 }
+
 
 interface State {
     lspConnected: boolean
@@ -36,26 +41,28 @@ class Editor extends React.Component<IEditorProps, State> {
         componentDidMount() {
             const divNode = this.domNodeRef.current
             if (divNode) {
-                setupLanguage(this.language)
+                setupLanguage(this.props.language)
 
                 // check if there already is a Monaco model to re-use or not
-                const models = monaco.editor.getModels()
+                const models = editor.getModels()
                 if (models.length == 0) {
                     this.model = createModel(this.language, "model")
                 } else {
                     this.model = models[0]
                 }
                 this.model.setValue(this.initialContent)
+
                 const path = this.props.localMode?CONTAINER_WSLSP_PATH:WSLSP_PATH
                 installEditor(divNode, this.model, this.language, this.props.localMode, path, ()=>this.lspConnect(), ()=>this.lspDisconnect())
+
             }    
             if (this.onSetEditor) this.onSetEditor(this)
         }
-
+        
         public getContent() {
             return this.model.getValue()
         }
-        
+
         private lspConnect(){
             this.setState({lspConnected: true})
         }
@@ -63,7 +70,7 @@ class Editor extends React.Component<IEditorProps, State> {
         private lspDisconnect(){
             this.setState({lspConnected: false})
         }
-
+        
         render() {
             return (
                 <Container fluid>
@@ -75,5 +82,4 @@ class Editor extends React.Component<IEditorProps, State> {
         }
 }
 
- export default Editor
- 
+export default Editor

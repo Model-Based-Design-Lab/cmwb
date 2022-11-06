@@ -1,5 +1,5 @@
-import { binLibFsa } from '../config/config'
 import { domExtensions, DomFSA } from '../config/model'
+import { binLibFsa } from '../config/serverconfig'
 import { combiningOperation, combiningOperationWithGenericResult, getBooleanResult, operationWithBooleanAndExplanation, operationWithBooleanResult, operationWithGenericResult, operationWithStringResult, transformingOperation } from './operations'
 
 async function transformingOperationFsa(

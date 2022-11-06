@@ -25,9 +25,9 @@ export interface IPasswordUser extends mongoose.Document {
 	verifyPassword(password: string): Promise<boolean>
 	}
 
-var PasswordUserSchema = new Schema({
+var PasswordUserSchema: mongoose.Schema<IPasswordUser> = new Schema({
 	id: {
-		type: ObjectId,
+		type: String,
 		required: false
 	},
 	name: {
@@ -126,7 +126,7 @@ export interface IAccessGroup extends mongoose.Document {
 
 var AccessGroupSchema = new Schema({
 	id: {
-		type: ObjectId,
+		type: String,
 		required: false
 	},
 	name: {
@@ -141,13 +141,13 @@ var AccessGroupSchema = new Schema({
 
 AccessGroupSchema.pre('save', function (next) {
 	let doc = <IAccessGroup>this
-	doc.id = doc._id
+	doc.id = doc._id.toString()
 	next()
 })
 
 export type TAccessGroupModel = mongoose.Model<mongoose.Document, {}>
 
-export async function getAccessGroupModel(host: string): Promise<TAccessGroupModel> {
+export async function getAccessGroupModel(host: string): Promise<any> {
 	const conn = await getAccessGroupModelConnection(host)
 	return conn.model('AccessGroupModel', AccessGroupSchema)
 }

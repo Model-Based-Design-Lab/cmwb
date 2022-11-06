@@ -1,5 +1,5 @@
-import { binLibMpm } from '../config/config'
 import { DomMPM } from '../config/model'
+import { binLibMpm } from '../config/serverconfig'
 import { fsReadCodegenFile, fsWriteFile } from '../utils/fsutils'
 import * as ops from './operations'
 
