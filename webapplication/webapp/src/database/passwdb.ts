@@ -4,7 +4,7 @@ import { getAccessGroupModel, getPasswordUserModel, IAccessGroup, IPasswordUser,
 import { Logger } from 'winston'
 import { GeneralGroup, ResetPasswordTimeoutSeconds, SignupTokenExpirySeconds } from '../config/config'
 import crypto from 'crypto'
-import { dbHandler, dbHandlerWithResult, getMongooseConnection, ObjectIdToString } from './mongoose'
+import { dbHandler, dbHandlerWithResult, getMongooseConnection, ObjectIdToString, stringToObjectId } from './mongoose'
 import { sendResetPasswordEmail } from '../email/sendmail'
 import { secondsSince } from '../utils/utils'
 import { AdminAccessAsyncBarrier, LocalModeBarrier } from './access'
@@ -206,7 +206,7 @@ export class PasswordUserMongooseDb extends PasswordUserDb {
 
 	public async deleteUser(userId: string): Promise<void> {
 		return new Promise((resolve, reject) => {
-			PasswordUserModel.deleteOne({id: userId}, dbHandler('Failed to delete user.', ()=> resolve(), err => reject(err)))
+			PasswordUserModel.deleteOne({"_id": stringToObjectId(userId)}, dbHandler('Failed to delete user.', ()=> resolve(), err => reject(err)))
 		})
 	}
 
@@ -322,7 +322,7 @@ export class PasswordUserMongooseDb extends PasswordUserDb {
 
 	private async getMongooseUserById(userId: string): Promise<IPasswordUser> {
 		return new Promise<IPasswordUser>((resolve, reject) => {
-			PasswordUserModel.findOne({id: userId}, dbHandlerWithResult("Could not find user", result => resolve(result), reject))
+			PasswordUserModel.findOne({"_id": stringToObjectId(userId)}, dbHandlerWithResult("Could not find user", result => resolve(result), reject))
 		})
 	}
 
@@ -338,7 +338,7 @@ export class PasswordUserMongooseDb extends PasswordUserDb {
 	public async getUser(sessionUserId: string, userId: string): Promise<IExternalPasswordUser> {
 		await AdminAccessAsyncBarrier(this, sessionUserId)
 		return new Promise((resolve, reject) => {
-			PasswordUserModel.findOne({id: userId}, dbHandlerWithResult('Error in getUser', result => 
+			PasswordUserModel.findOne({"_id": stringToObjectId(userId)}, dbHandlerWithResult('Error in getUser', result => 
 			resolve(result), 
 			reject))
 		})
@@ -360,6 +360,9 @@ export class PasswordUserMongooseDb extends PasswordUserDb {
 
 	public async getUserActiveGroup(sessionUserId: string): Promise<string> {
 		const user: IPasswordUser = await this.getMongooseUserById(sessionUserId)
+		if (! user) {
+			throw new Error(`User with id ${sessionUserId} not found.`)
+		}
 		return user.activeGroup
 	}
 

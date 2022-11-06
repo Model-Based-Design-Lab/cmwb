@@ -62,11 +62,11 @@ class Login extends React.Component<Props, State> {
                             <Form.Text>Provide your email and password to login. You can register by switching to the sign up tab, or login as a guest on the Guest Login tab. If you forgot your password, click on the 'forgot password' link below to reset your password.</Form.Text>
                             <Form.Group controlId="formSignInEmail">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control name="email" type="email" placeholder="Enter email" onChange={e => this.setState({ email: e.target.value })} />
+                                <Form.Control name="email" type="email" placeholder="Enter email" autoComplete='email' onChange={e => this.setState({ email: e.target.value })} />
                             </Form.Group>
                             <Form.Group controlId="formSignInPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control name="password" type="password" placeholder="Password" />
+                                <Form.Control name="password" type="password" autoComplete='current-password' placeholder="Password" />
                             </Form.Group>
                             <Button variant="primary" type="submit">
                                 Submit
@@ -80,11 +80,11 @@ class Login extends React.Component<Props, State> {
                         <Form method="post" action="signup">
                             <Form.Group controlId="formSignUpEmail">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control name="email" type="email" placeholder="Enter email" />
+                                <Form.Control name="email" type="email" autoComplete='email' placeholder="Enter email" />
                             </Form.Group>
                             <Form.Group controlId="formSignUpName">
                                 <Form.Label>Your Name</Form.Label>
-                                <Form.Control name="name" placeholder="Name" />
+                                <Form.Control name="name" autoComplete='name' placeholder="Name" />
                             </Form.Group>
                             <Form.Group controlId="formSignUpAccessCode">
                                 <Form.Label>Workbench Access Code</Form.Label>

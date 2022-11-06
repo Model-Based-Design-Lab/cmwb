@@ -75,7 +75,6 @@ var PasswordUserSchema: mongoose.Schema<IPasswordUser> = new Schema({
 	},
 })
 
-
 async function digestMessage(message: string) {
 	const msgUint8 = new TextEncoder().encode(message)
 	const hash = crypto.createHash('sha512')
@@ -140,7 +139,7 @@ var AccessGroupSchema = new Schema({
 })
 
 AccessGroupSchema.pre('save', function (next) {
-	let doc = <IAccessGroup>this
+	let doc = this
 	doc.id = doc._id.toString()
 	next()
 })
