@@ -1,6 +1,6 @@
 import { logger } from '../config/winston'
-import { BinaryEncoding, codegenBin, codeGenOutputDir, graphvizBin, latex2SvgBin, previewDir, sdf3analyzeBin, sdf3analyzeFsmSadfBin, sdf3convertSdfSadfBin, cmtraceBin, webAppRoot } from "../config/config"
-import { ensureDirExists, ensureEmptyDir, fsDeleteFile, fsReadBinaryCodegenFile, fsReadDir, fsReadCodegenFile, fsRename, fsWriteFile, getAllFiles } from "../utils/fsutils"
+import { BinaryEncoding, codegenBin, codeGenOutputDir, graphvizBin, latex2SvgBin, previewDir, sdf3analyzeBin, sdf3analyzeFsmSadfBin, sdf3convertSdfSadfBin, cmtraceBin } from "../config/config"
+import { ensureDirExists, ensureEmptyDir, fsDeleteFile, fsReadBinaryCodegenFile, fsReadDir, fsReadCodegenFile, fsRename, fsWriteFile, getAllFilesDirRestricted,  } from "../utils/fsutils"
 import { cpExecute } from "../utils/cputils"
 import { DomDTMC, domExtensions, DomFSA, DomLTL, DomMPM, DomRegEx, DomSDF } from "../config/model"
 import * as libDtmc from '../operations/dtmc'
@@ -970,7 +970,7 @@ export async function runCodeGen (modelId: string, name: string, content: string
 }
 
 export async function artifacts (modelId: string) {
-    const files = await getAllFiles(CodeGenBase.modelOutDir(modelId))
+    const files = await getAllFilesDirRestricted(CodeGenBase.modelOutDir(modelId), codeGenOutputDir)
     return files.map((file:string) => [path.basename(file), file, path.extname(file)])
 }
 

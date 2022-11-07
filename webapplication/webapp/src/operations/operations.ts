@@ -1,7 +1,7 @@
 import { binLibFsa, binLibDtmc, binLibSdf } from "../config/config"
 import { DomFSA, DomRegEx, DomDTMC, DomSDF, domExtensions, DomLTL, DomMPM } from "../config/model"
 import { cpExecute } from "../utils/cputils"
-import { fsReadCodegenFile, newTempFileName, saveAsTempFile } from "../utils/fsutils"
+import { doWithTempFileGetContents, doWithTempFileWithContents, fsReadCodegenFile } from "../utils/fsutils"
 
 
 function _domainBin(dom: string) {
@@ -24,11 +24,13 @@ function _domainBin(dom: string) {
 }
 
 export async function operationWithGenericResult<TResult>(domain: string, model: string, operationBuilder: (modelFile: string, outputFile: string) => string, resultExtractor: (output: string)=>TResult): Promise<TResult> {
-    const f = await saveAsTempFile(model, domExtensions.get(domain))
-    const g = await newTempFileName('txt')
-    const operation = operationBuilder(f, g)
-    await cpExecute(operation)
-    const output = await fsReadCodegenFile(g)
+
+    const output = await doWithTempFileWithContents(model, domExtensions.get(domain), async (f: string)=>{
+        return await doWithTempFileGetContents('txt', async (g: string) => {
+            const operation = operationBuilder(f, g)
+            await cpExecute(operation)        
+        })
+    })
     return resultExtractor(output)
 }
 
@@ -53,23 +55,28 @@ export async function transformingOperation (
     domain: string
     ): Promise<string> 
 {
-    const f = await saveAsTempFile(modelText, srcExt)
-    const g = await newTempFileName(dstExt)
-    var argsStr = ""
-    args.forEach((argValue, arg) => {
-        argsStr += `-${arg} ${argValue} `
+
+    return doWithTempFileWithContents(modelText, srcExt, async (f: string) => {
+        return await doWithTempFileGetContents(dstExt, async (g: string)=>{
+            var argsStr = ""
+            args.forEach((argValue, arg) => {
+                argsStr += `-${arg} ${argValue} `
+            })
+            await cpExecute(`"${_domainBin(domain)}" --operation ${operation} ${argsStr} ${f} > ${g} `)        
+        })
     })
-    await cpExecute(`"${_domainBin(domain)}" --operation ${operation} ${argsStr} ${f} > ${g} `)
-    return await fsReadCodegenFile(g)
 }
 
 export async function combiningOperationWithGenericResult<TResult> (domain: string, model1: string, model2: string, operationBuilder: (modelFile1: string, modelFile2: string, outputFile: string) => string, resultExtractor: (output: string) => TResult): Promise<TResult> {
-    const f1 = await saveAsTempFile(model1, domExtensions.get(domain))
-    const f2 = await saveAsTempFile(model2, domExtensions.get(domain))
-    const g = await newTempFileName(domExtensions.get(domain))
-    const operation = operationBuilder(f1, f2, g)
-    await cpExecute(operation)
-    const output = await fsReadCodegenFile(g)
+
+    const output = await doWithTempFileWithContents(model1, domExtensions.get(domain), async (f1: string) =>{
+        return await doWithTempFileWithContents(model2, domExtensions.get(domain), async (f2: string) => {
+            return doWithTempFileGetContents(domExtensions.get(domain), async (g: string) =>{
+                const operation = operationBuilder(f1, f2, g)
+                await cpExecute(operation)            
+            })
+        })
+    })
     return resultExtractor(output)
 }
 
