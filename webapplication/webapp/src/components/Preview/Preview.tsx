@@ -171,6 +171,10 @@ export class Preview extends React.Component<Props,State> {
     }
 
     private getSVGNode() {
+        if (! this.previewNode.current) {
+            throw new Error("There is no preview image.");
+            
+        }
         return this.previewNode.current.getElementsByTagName("svg")[0]
     }
 

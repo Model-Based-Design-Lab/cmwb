@@ -1,5 +1,5 @@
 import { logger } from '../config/winston'
-import { BinaryEncoding, codegenBin, codeGenOutputDir, graphvizBin, latex2SvgBin, previewDir, sdf3analyzeBin, sdf3analyzeFsmSadfBin, sdf3convertSdfSadfBin, cmtraceBin } from "../config/config"
+import { BinaryEncoding } from "../config/config"
 import { ensureDirExists, ensureEmptyDir, fsDeleteFile, fsReadBinaryCodegenFile, fsReadDir, fsReadCodegenFile, fsRename, fsWriteFile, getAllFilesDirRestricted,  } from "../utils/fsutils"
 import { cpExecute } from "../utils/cputils"
 import { DomDTMC, domExtensions, DomFSA, DomLTL, DomMPM, DomRegEx, DomSDF } from "../config/model"
