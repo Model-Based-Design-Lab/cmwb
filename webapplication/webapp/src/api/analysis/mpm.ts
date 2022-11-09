@@ -5,7 +5,7 @@ import { ApiAnalysisMPMConvertPrecedenceGraph, ApiAnalysisMPMConvolutionAnalysis
 import express from "express"
 import { DomMPM } from "../../config/model"
 import { convolution, convolutionTransform, delay, eigenvalue, eigenvectors, precedencegraph, eventSequences, inputLabels, matrices, maximum, maximumTransform, multiply, multiplyTransform, scale, starclosure, vectorSequences, vectorTrace, vectorTraceTransform } from "../../operations/mpm"
-import { convertPrecedencegraph, vectorChart } from "../../codegen/codegen"
+import { convertPrecedenceGraph, vectorChart } from "../../codegen/codegen"
 
 function setTransformRouteWithInput(router: express.Router, modelsDb: ModelsDb, api: string, transform:  (model: string, query: any) => Promise<string>, newNameTransform: (oldName: string)=>string, errorMessage: string) {
     return setTransformToDomainRouteWithInput(router, modelsDb, api, transform, newNameTransform, DomMPM, errorMessage)
@@ -30,7 +30,7 @@ export function setMPMAnalysisAPI(router: express.Router, modelsDb: ModelsDb) {
 
     setTextAnalysisRouteWithInput(router, modelsDb, ApiAnalysisMPMPrecedenceGraph, (m,q)=>precedencegraph(m, q.matrix), "Failed to determine precedence graph.")
 
-    setArtifactGenerationRouteWithInput(router, modelsDb, ApiAnalysisMPMConvertPrecedenceGraph, (m,q)=>convertPrecedencegraph(q.modelId, q.name, m, q.matrix), "Failed to make precedence graph.")
+    setArtifactGenerationRouteWithInput(router, modelsDb, ApiAnalysisMPMConvertPrecedenceGraph, (m,q)=>convertPrecedenceGraph(q.modelId, q.name, m, q.matrix), "Failed to make precedence graph.")
 
     setTextAnalysisRouteWithInput(router, modelsDb, ApiAnalysisMPMStarClosure, (m,q)=>starclosure(m, q.matrix), "Failed to determine star closure.")
 
