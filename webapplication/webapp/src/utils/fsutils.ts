@@ -240,7 +240,7 @@ export async function checkFileExists(path: string): Promise<boolean> {
     })
 }
 
-export function getAllFilesSync(dir: string): string[] {
+function getAllFilesSync(dir: string): string[] {
     dir = withTrailingSlash(dir)
     var results:string[] = []
     const list = fs.readdirSync(dir)
@@ -259,7 +259,7 @@ export function getAllFilesSync(dir: string): string[] {
     return results
 }
 
-export async function getAllFiles(dir: string): Promise<string[]> {
+async function getAllFiles(dir: string): Promise<string[]> {
     return new Promise((resolve, reject) => {
         try {
             resolve(getAllFilesSync(dir)) 
@@ -269,7 +269,18 @@ export async function getAllFiles(dir: string): Promise<string[]> {
     })
 }
 
-export async function newTempFileName(ext: string): Promise<string> {
+
+export async function getAllFilesDirRestricted(dir: string, allowedDir: string): Promise<string[]> {
+    // read file contents
+    // only allowed inside the allowed directory
+    const absoluteAllowedDir = path.resolve(allowedDir)
+    const absoluteRequestedDir = path.resolve(dir)
+    if (! (absoluteRequestedDir.indexOf(absoluteAllowedDir) == 0)) throw new Error('getAllFilesDirRestricted only works inside allowed dir')
+    return getAllFiles(dir)
+}
+
+
+async function newTempFileName(ext: string): Promise<string> {
     return new Promise((resolve, reject) => {
         var options = {
             // seems we must make temp files under the system's temp dir
@@ -284,7 +295,7 @@ export async function newTempFileName(ext: string): Promise<string> {
 }
 
 
-export async function saveAsTempFile(contents: string, ext: string): Promise<string> {
+async function saveAsTempFile(contents: string, ext: string): Promise<string> {
     return new Promise((resolve, reject) => {
         newTempFileName(ext)
         .then( tmpName => {
@@ -293,4 +304,22 @@ export async function saveAsTempFile(contents: string, ext: string): Promise<str
         })
         .catch(err => reject(err))
     })
+}
+
+export async function doWithTempFileWithContents(contents: string, ext: string, operation: (tempFileName: string)=>Promise<any>) : Promise<any> {
+    const tempFile = await saveAsTempFile(contents, ext)
+    const result = await operation(tempFile)
+    return result
+}
+
+export async function doWithTempFileName(ext: string, operation: (tempFileName: string)=>Promise<any>) : Promise<any> {
+    const tempFile = await newTempFileName(ext)
+    const result = await operation(tempFile)
+    return result
+}
+
+export async function doWithTempFileGetContents(ext: string, operation: (tempFileName: string)=>Promise<void>) : Promise<any> {
+    const tempFile = await newTempFileName(ext)
+    await operation(tempFile)
+    return await fsReadFile(tempFile)
 }
