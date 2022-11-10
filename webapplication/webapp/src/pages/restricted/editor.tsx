@@ -33,7 +33,6 @@ class Editor extends React.Component<Props, State> {
     private confirmDialog: React.RefObject<Confirm>
     private selectionDialog: React.RefObject<SelectionModal>
     private artifactList: React.RefObject<ArtifactList>
-    // private router: NextRouter
 
     constructor(props: any) {
         super(props)
@@ -45,7 +44,10 @@ class Editor extends React.Component<Props, State> {
         this.selectionDialog = React.createRef()
         this.notification = React.createRef()
         this.artifactList = React.createRef()
-        // this.router = props.router
+    }
+
+    // on client side, get the model, when the page is mounted
+    public componentDidMount() {
         this.getModel(this.modelId)
         .then( (model: any) => {
             this.setState({loading: false, initialModel: model})
@@ -129,7 +131,6 @@ class Editor extends React.Component<Props, State> {
             </Container>
         )
     }
-
 }
 
 export default Editor

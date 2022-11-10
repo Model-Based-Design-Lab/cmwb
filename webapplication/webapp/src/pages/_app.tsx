@@ -3,7 +3,7 @@ import App from 'next/app'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/main.css'
 import 'w3-css/w3.css'
-import { Container } from 'react-bootstrap'
+import { Container, SSRProvider } from 'react-bootstrap'
 import Navigation from '../components/Navigation/Navigation'
 
 class MyApp extends App {
@@ -44,14 +44,16 @@ class MyApp extends App {
         }
 
         return (
-            <Container fluid>
-                <nav>
-                    <Navigation {...pageProps}></Navigation>
-                </nav>
-                <article>
-                    <Component {...pageProps} />
-                </article>
-            </Container>
+            <SSRProvider>
+                <Container fluid>
+                    <nav>
+                        <Navigation {...pageProps}></Navigation>
+                    </nav>
+                    <article>
+                        <Component {...pageProps} />
+                    </article>
+                </Container>
+            </SSRProvider>
         )
     }
 }
