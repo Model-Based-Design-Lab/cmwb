@@ -19,13 +19,15 @@ interface Props {
 interface State {
     user: IExternalPasswordUser
     accessCode: string
+    localSignupDate: string
+
 }
 
 export default class Profile extends React.Component<Props,State> {
 
     constructor(props: any) {
         super(props)
-        this.state = {user: props.user, accessCode: ""}
+        this.state = {user: props.user, accessCode: "", localSignupDate: ""}
         this.notification = React.createRef()
         this.modalEditText = React.createRef()
     }
@@ -80,6 +82,9 @@ export default class Profile extends React.Component<Props,State> {
         return l.join(", ")
     }
     
+    public componentDidMount(): void {
+        this.setState({localSignupDate: dateAndTimeString(this.state.user.createdAt)})
+    }
 
     render() {
         if (this.props.localMode) {
@@ -95,7 +100,7 @@ export default class Profile extends React.Component<Props,State> {
                         <tbody>
                             <tr><td>Name</td><td>{this.state.user.name}</td></tr>
                             <tr><td>E-mail</td><td>{this.state.user.email}</td></tr>
-                            <tr><td>Signed up</td><td>{dateAndTimeString(this.state.user.createdAt)}</td></tr>
+                            <tr><td>Signed up</td><td>{this.state.localSignupDate}</td></tr>
                             <tr><td>Group</td><td>{this.state.user.group}</td></tr>
                             <tr><td>Access to groups</td><td>{this.listOfGroups(this.state.user.accessibleGroups)}</td></tr>
                         </tbody>
