@@ -8,7 +8,7 @@ import Navigation from '../components/Navigation/Navigation'
 
 class MyApp extends App {
 
-    state: any
+    declare state: any
 
     static async getInitialProps({ Component, ctx }: any) {
         let pageProps: any = {}
