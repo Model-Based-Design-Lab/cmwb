@@ -29,6 +29,7 @@
     "file-loader": "^6.2.0",
     "fs": "^0.0.1-security",
     "isomorphic-fetch": "^3.0.0",
+    "mathjax-node": "^2.1.1",
     "monaco-editor": "0.34.1",
     "monaco-editor-workers": "0.34.2",
     "monaco-languageclient": "^4.0.1",
