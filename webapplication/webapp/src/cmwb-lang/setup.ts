@@ -33,15 +33,20 @@ const languageExtensionPoint: (language: string) => monaco.languages.ILanguageEx
     }
 }
 
-const createLanguageClient = (transports: MessageTransports, languageID: string): MonacoLanguageClient => {
+const createLanguageClient = (transports: MessageTransports, languageID: string, onError: ()=> (void)): MonacoLanguageClient => {
     return new MonacoLanguageClient({
         name: 'Computational Modeling Language Client',
         clientOptions: {
             documentSelector: [languageID],
             // select error handlers
             errorHandler: {
-                error: () => ({ action: ErrorAction.Continue }),
-                closed: () => ({ action: CloseAction.Restart })
+                error: () => {
+                    onError()
+                    return ({ action: ErrorAction.Shutdown })
+                },
+                closed: () => {
+                    return { action: CloseAction.Restart }
+                }
             }
         },
         // create a language client connection from the JSON RPC connection on demand
@@ -56,6 +61,31 @@ const createLanguageClient = (transports: MessageTransports, languageID: string)
 const modelUri = (name: string, languageID: string) => monaco.Uri.parse(`inmemory:/models/${name}.${languageID}`)
 
 export const createModel = (languageID: string, name: string) => monaco.editor.createModel("", languageID, modelUri(name, languageID))
+
+
+function createLanguageClientAndWebsocket(localMode: boolean, wslspPath: string, languageID, onLspConnect: ()=>void, onLspDisconnect: ()=>void) {
+        // create the websocket and the language client to the LSP server
+        const webSocket = new WebSocket(createUrl(localMode, wslspPath))
+        webSocket.onopen = () => {
+            const socket = toSocket(webSocket)
+            const reader = new WebSocketMessageReader(socket)
+            const writer = new WebSocketMessageWriter(socket)
+            const languageClient = createLanguageClient({
+                reader,
+                writer
+            }, languageID, ()=>{
+                createLanguageClientAndWebsocket(localMode, wslspPath, languageID, onLspConnect, onLspDisconnect)
+            })
+            languageClient.start()
+            reader.onClose(() => {
+                languageClient.dispose()
+            })
+            onLspConnect()
+        }
+        webSocket.onclose = () => {
+            onLspDisconnect()
+        }
+}
 
 // install editor on model on a div node for the given language
 // setup language client with websocket connection to LSP server
@@ -78,24 +108,8 @@ export const installEditor = (
 
     MonacoServices.install()
 
+    createLanguageClientAndWebsocket(localMode, wslspPath, languageID, onLspConnect, onLspDisconnect)
 
-    // create the websocket and the language client to the LSP server
-    const webSocket = new WebSocket(createUrl(localMode, wslspPath))
-    webSocket.onopen = () => {
-        const socket = toSocket(webSocket)
-        const reader = new WebSocketMessageReader(socket)
-        const writer = new WebSocketMessageWriter(socket)
-        const languageClient = createLanguageClient({
-            reader,
-            writer
-        }, languageID)
-        languageClient.start()
-        reader.onClose(() => languageClient.dispose())
-        onLspConnect()
-    }
-    webSocket.onclose = () => {
-        onLspDisconnect()
-    }
 }
 
 export function setupLanguage(languageID: string) {
