@@ -41,6 +41,7 @@ const createLanguageClient = (transports: MessageTransports, languageID: string,
             // select error handlers
             errorHandler: {
                 error: () => {
+                    // error seem to happen, when the connection idle for a while leading to an unhandled promise rejection. I have not figured out how to avoid this. For now let it happen, shut down the language client and use the onError handler to start a new one. It will produce errors in the background and in the foreground in the debug version
                     onError()
                     return ({ action: ErrorAction.Shutdown })
                 },
@@ -74,7 +75,9 @@ function createLanguageClientAndWebsocket(localMode: boolean, wslspPath: string,
                 reader,
                 writer
             }, languageID, ()=>{
-                createLanguageClientAndWebsocket(localMode, wslspPath, languageID, onLspConnect, onLspDisconnect)
+                languageClient.stop()
+                languageClient.dispose()
+                setTimeout(()=> createLanguageClientAndWebsocket(localMode, wslspPath, languageID, onLspConnect, onLspDisconnect), 10000)
             })
             languageClient.start()
             reader.onClose(() => {
