@@ -63,7 +63,7 @@ const modelUri = (name: string, languageID: string) => monaco.Uri.parse(`inmemor
 export const createModel = (languageID: string, name: string) => monaco.editor.createModel("", languageID, modelUri(name, languageID))
 
 
-function createLanguageClientAndWebsocket(localMode: boolean, wslspPath: string, languageID, onLspConnect: ()=>void, onLspDisconnect: ()=>void) {
+function createLanguageClientAndWebsocket(localMode: boolean, wslspPath: string, languageID: string, onLspConnect: ()=>void, onLspDisconnect: ()=>void) {
         // create the websocket and the language client to the LSP server
         const webSocket = new WebSocket(createUrl(localMode, wslspPath))
         webSocket.onopen = () => {
