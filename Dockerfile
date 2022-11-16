@@ -4,7 +4,11 @@ WORKDIR /usr
 ENV TZ=Europe/Amsterdam
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update
-RUN apt-get -y install default-jdk dos2unix graphviz python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv libcairo2-dev nodejs npm
+RUN apt-get -y install default-jdk dos2unix graphviz python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv libcairo2-dev curl
+
+# Install node v16
+RUN curl -s https://deb.nodesource.com/setup_16.x | bash
+RUN apt-get -y install nodejs
 
 # Create directory
 WORKDIR /usr/cmwb

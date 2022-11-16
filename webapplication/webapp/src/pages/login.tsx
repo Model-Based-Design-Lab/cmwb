@@ -118,7 +118,7 @@ class Login extends React.Component<Props, State> {
                     <Form.Text>Provide your username and displayed name to login.</Form.Text>
                     <Form.Group controlId="formSignInEmail">
                         <Form.Label>User name</Form.Label>
-                        <Form.Control name="email" type="email" placeholder="Enter username" onChange={e => this.setState({ email: e.target.value })} />
+                        <Form.Control name="email" type="text" placeholder="Enter username" onChange={e => this.setState({ email: e.target.value })} />
                     </Form.Group>
                     <Form.Group controlId="formSignInEmail">
                         <Form.Label>Enter your name</Form.Label>
