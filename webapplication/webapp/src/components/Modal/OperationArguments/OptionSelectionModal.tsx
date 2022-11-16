@@ -22,6 +22,7 @@ export class OptionSelectionModal extends React.Component<Props, State> {
 
     constructor(props: any) {
         super(props)
+
         this.state = { 
             show: false, 
             header: "", 
@@ -97,7 +98,7 @@ export class OptionSelectionModal extends React.Component<Props, State> {
       }
 
     render() {
-        const dropDownItems = this.state.items.map(item => <Dropdown.Item key={item[0]} onSelect={()=>this.select(item[0])}>{item[1]}</Dropdown.Item>)
+        const dropDownItems = this.state.items.map(item => <Dropdown.Item key={item[0]} onClick={()=>this.select(item[0])}>{item[1]}</Dropdown.Item>)
         return (
             <Modal show={this.state.show} onHide={()=>this.handleCloseCancel()} className="modal">
                 <Modal.Header closeButton>
@@ -109,6 +110,7 @@ export class OptionSelectionModal extends React.Component<Props, State> {
                         onChange={item => this.select(item)}
                         onKeyUp={(e: any) => this.handleKeyUp(e)}
                         items={this.state.items}
+                        
                     ></Selection>
                     { (this.state.showAdvanced) &&
                         <AdvancedOptions onChange={value=>{this.setState({advanced: value})}}></AdvancedOptions>

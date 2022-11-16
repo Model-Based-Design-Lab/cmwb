@@ -78,7 +78,7 @@ export class SelectionModal extends React.Component<Props, State> {
       }
 
     render() {
-        const dropDownItems = this.state.items.map(item => <Dropdown.Item key={item[0]} onSelect={()=>this.select(item[0])}>{item[1]}</Dropdown.Item>)
+        const dropDownItems = this.state.items.map(item => <Dropdown.Item key={item[0]} onClick={()=>this.select(item[0])}>{item[1]}</Dropdown.Item>)
         return (
             <Modal show={this.state.show} onHide={()=>this.handleCloseCancel()} className="modal">
                 <Modal.Header closeButton>

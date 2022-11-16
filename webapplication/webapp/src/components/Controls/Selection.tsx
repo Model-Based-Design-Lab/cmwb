@@ -25,11 +25,14 @@ export class Selection extends React.Component<Props, State> {
 
 
     render() {
-        const dropDownItems = this.props.items.map(item => <Dropdown.Item key={item[0]} onSelect={()=>this.select(item[0])}>{item[1]}</Dropdown.Item>)
+        const dropDownItems = this.props.items.map(item => <Dropdown.Item key={item[0]} onClick={()=>this.select(item[0])}>{item[1]}</Dropdown.Item>)
         return (
             <div>{this.props.question}
                     <hr/>
-                    <DropdownButton id="dropdown-basic-button" title="Select">
+                    <DropdownButton 
+                        id="dropdown-basic-button" 
+                        title="Select"
+                    >
                         {dropDownItems}
                     </DropdownButton>
             </div>
