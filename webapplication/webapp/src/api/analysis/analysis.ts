@@ -116,7 +116,7 @@ function setGenericAnalysisRoute<TResult>(router: express.Router, modelsDb: Mode
             res.send(okResponse(makeResponse(result)))
         })
         .catch( reason => 
-            res.send(errorResponse(`${errorMessage}: ${reason}`))
+            res.send(errorResponse(`${errorMessage}\n${reason}`))
         )
     })
 }

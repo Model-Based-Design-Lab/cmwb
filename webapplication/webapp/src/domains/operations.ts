@@ -50,7 +50,7 @@ export class Operation {
 			})
 			.catch(error => {
 				this.error = true
-				result = "An error occurred during the operation.\n" + error
+				result = "An error occurred during the operation.\n" + error.message
 				resolve(result)
 			})
 		})

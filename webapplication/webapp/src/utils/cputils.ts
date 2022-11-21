@@ -9,7 +9,7 @@ export async function cpExecute(command: string, timeoutSeconds: number=DefaultC
                     // Timeout occurred
                     reject(`The process was terminated because of a timeout.`)
                 } else {
-                    reject(`${error} wih stderr: ${stderr}.`)
+                    reject(stderr)
                 }
             } else {
                 resolve(stdout)

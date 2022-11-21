@@ -314,7 +314,7 @@ export class ModuleIndex extends React.Component<Props, State> {
         try {
             await op.execute()            
         } catch (error) {
-            this.processAnalysisResult(error)
+            this.processAnalysisResult(error.message)
         }
         this.abortOperationTimeout()    
     }
