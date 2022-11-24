@@ -124,6 +124,7 @@ export class StoppingCondition extends React.Component<Props, State> {
     render() {
         return (
             <div>{this.props.question}
+                    Provide the required confidence level and stopping criteria.
                     Leave individual criteria blank if you don't want to use that particular criterion. At least one stopping criterion is required.
                     <InputGroup className="mb-3" onKeyUp={this.props.onKeyUp}>
                         <div>
@@ -139,6 +140,7 @@ export class StoppingCondition extends React.Component<Props, State> {
                                     />
                                 </Container>
                             }
+                            <Form.Label>Stopping Criteria</Form.Label>
                             {!this.props.hiddenOptions.includes(SimulationOptions.AbsoluteErrorBound) &&
                                 <Container fluid>
                                     <Form.Label>Absolute error bound:</Form.Label>
