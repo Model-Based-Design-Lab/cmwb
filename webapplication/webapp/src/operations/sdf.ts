@@ -30,6 +30,10 @@ export async function latency(sdf: string, period: number): Promise<string> {
     return await sdfOperationWithStringResult(sdf, (f, g) => `"${binLibSdf}" --operation generalizedlatency ${f} -p ${period} > ${g} `)
 }
 
+export async function stateMatrix(sdf: string): Promise<string> {
+    return await sdfOperationWithStringResult(sdf, (f, g) => `"${binLibSdf}" --operation statematrix ${f} > ${g} `)
+}
+
 export async function stateSpaceMatrices(sdf: string): Promise<string> {
     return await sdfOperationWithStringResult(sdf, (f, g) => `"${binLibSdf}" --operation statespacerepresentation ${f} > ${g} `)
 }

@@ -1,4 +1,4 @@
-import { ApiAnalysisSDFCheckDeadlock, ApiAnalysisSDFConvertSDF3, ApiAnalysisSDFConvertSVG, ApiAnalysisSDFConvertToSingleRate, ApiAnalysisSDFGanttChart, ApiAnalysisSDFGetInputLabels, ApiAnalysisSDFGetStateLabels, ApiAnalysisSDFLatency, ApiAnalysisSDFMakeStateMatrixModel, ApiAnalysisSDFMakeStateSpaceMatricesModel, ApiAnalysisSDFRepetitionVector, ApiAnalysisSDFStateSpaceMatrices, ApiAnalysisSDFThroughput } from "../api/api"
+import { ApiAnalysisSDFCheckDeadlock, ApiAnalysisSDFConvertSDF3, ApiAnalysisSDFConvertSVG, ApiAnalysisSDFConvertToSingleRate, ApiAnalysisSDFGanttChart, ApiAnalysisSDFGetInputLabels, ApiAnalysisSDFGetStateLabels, ApiAnalysisSDFLatency, ApiAnalysisSDFMakeStateMatrixModel, ApiAnalysisSDFMakeStateSpaceMatricesModel, ApiAnalysisSDFRepetitionVector, ApiAnalysisSDFStateMatrix, ApiAnalysisSDFStateSpaceMatrices, ApiAnalysisSDFThroughput } from "../api/api"
 import { Controller } from "./controller"
 
 
@@ -30,6 +30,10 @@ export class SDFAnalysisController extends Controller {
 
     static async convertToSingleRate(modelId: string, userId: string, userName: string): Promise<string> {
         return SDFAnalysisController.requestWithResponseAndData(ApiAnalysisSDFConvertToSingleRate, {modelId: modelId, userId: userId, userName: userName},  respObj => respObj.modelName)
+    }
+
+    static async stateMatrix(modelId: string): Promise<string> {
+        return SDFAnalysisController.requestWithResponseAndData<string>(ApiAnalysisSDFStateMatrix, {modelId: modelId}, respObj => respObj.analysisOutput)
     }
 
     static async stateSpaceMatrices(modelId: string): Promise<string> {

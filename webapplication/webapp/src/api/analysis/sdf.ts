@@ -1,7 +1,7 @@
 import { ModelsDb } from "../../database/modelsdb"
 import { setArtifactGenerationRouteWithInput, setTextAnalysisRoute,  setTextAnalysisRouteWithInput, setTransformToDomainRoute } from "./analysis"
-import { ApiAnalysisSDFCheckDeadlock, ApiAnalysisSDFConvertSDF3, ApiAnalysisSDFConvertSVG, ApiAnalysisSDFConvertToSingleRate, ApiAnalysisSDFGanttChart, ApiAnalysisSDFGetInputLabels, ApiAnalysisSDFGetStateLabels, ApiAnalysisSDFLatency, ApiAnalysisSDFMakeStateMatrixModel, ApiAnalysisSDFMakeStateSpaceMatricesModel, ApiAnalysisSDFRepetitionVector, ApiAnalysisSDFStateSpaceMatrices, ApiAnalysisSDFThroughput } from '../api'
-import { convertToSingleRate, convertToStateMatrix, convertToStateSpaceMatrices, deadlock, inputLabels, stateLabels, latency, repetitionVector, stateSpaceMatrices, throughput } from "../../operations/sdf"
+import { ApiAnalysisSDFCheckDeadlock, ApiAnalysisSDFConvertSDF3, ApiAnalysisSDFConvertSVG, ApiAnalysisSDFConvertToSingleRate, ApiAnalysisSDFGanttChart, ApiAnalysisSDFGetInputLabels, ApiAnalysisSDFGetStateLabels, ApiAnalysisSDFLatency, ApiAnalysisSDFMakeStateMatrixModel, ApiAnalysisSDFMakeStateSpaceMatricesModel, ApiAnalysisSDFRepetitionVector, ApiAnalysisSDFStateMatrix, ApiAnalysisSDFStateSpaceMatrices, ApiAnalysisSDFThroughput } from '../api'
+import { convertToSingleRate, convertToStateMatrix, convertToStateSpaceMatrices, deadlock, inputLabels, stateLabels, latency, repetitionVector, stateSpaceMatrices, throughput, stateMatrix } from "../../operations/sdf"
 import express from "express"
 import { DomMPM, DomSDF } from "../../config/model"
 import { convertSDF3Artifact, convertSVGArtifact, ganttChart } from "../../codegen/codegen"
@@ -27,7 +27,9 @@ export function setSDFAnalysisAPI(router: express.Router, modelsDb: ModelsDb) {
 
     setTextAnalysisRouteWithInput(router, modelsDb, ApiAnalysisSDFLatency, (m,q) => latency(m, q.period), "Failed to check latency")
 
-    setTextAnalysisRoute(router, modelsDb, ApiAnalysisSDFStateSpaceMatrices, m=>stateSpaceMatrices(m), "Failed to determine state space matrices.")
+    setTextAnalysisRoute(router, modelsDb, ApiAnalysisSDFStateMatrix, m=>stateMatrix(m), "Failed to determine state matrix.")
+
+    setTextAnalysisRoute(router, modelsDb, ApiAnalysisSDFStateSpaceMatrices, m=>stateSpaceMatrices(m), "Failed to determine state-space matrices.")
 
     setArtifactGenerationRouteWithInput(router, modelsDb, ApiAnalysisSDFGanttChart, (m,q)=>ganttChart(q.modelId, q.modelName, m, q.numberOfIterations, q.initialState, q.inputTraces, q.zeroBased=="true"), "Failed to make Gantt chart.")
 
