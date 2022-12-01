@@ -20,11 +20,15 @@ The CMWB is built from a few open-source components that are ll available on git
 
 This website uses the following tools and components.
 
-- Node.js <https://nodejs.org/>
-- React <https://reactjs.org/>
-- mongo db <https://www.mongodb.com/>
-- Express <https://expressjs.com/>
-- NextJS <https://nextjs.org/>
-- Passport <http://www.passportjs.org/>
-- Xtext domain-specific language technology <https://www.eclipse.org/Xtext/>
-- Monaco Editor and language server <https://microsoft.github.io/monaco-editor/>
+- SDF3 — <https://www.es.ele.tue.nl/sdf3>
+- Node.js — <https://nodejs.org/>
+- React — <https://reactjs.org/>
+- mongo db — <https://www.mongodb.com/>
+- Express — <https://expressjs.com/>
+- NextJS — <https://nextjs.org/>
+- Passport — <http://www.passportjs.org/>
+- Eclipse Xtext domain-specific language technology — <https://www.eclipse.org/Xtext/>
+- Monaco Editor and language server — <https://microsoft.github.io/monaco-editor/>
+- Graphviz visualization — <https://graphviz.org/>
+- textX Python package — <https://pypi.org/project/textX/>
+- python-graph Python package — <https://github.com/Shoobx/python-graph>
