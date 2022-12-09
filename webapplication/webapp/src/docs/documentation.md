@@ -6,9 +6,11 @@ Note that the readers are only accessible when you are logged in to the web page
 
 ## Readers (2021 version)
 
-The course lecture notes of the 2021 edition of the course 5XIE0 are available vie the link below.
+The course lecture notes of the 2021 edition of the course 5XIE0 are available via the link below.
 
 Reader: [5xie0-reader.pdf](RESTRICTED_STATIC_PATH/pdf/5xie0-reader.pdf)
+
+The part on Dataflow and Max-Plus Algebra is publicly available online [here](https://computationalmodeling.info/static/mpd/).
   
 ## Documentation Pages
 
