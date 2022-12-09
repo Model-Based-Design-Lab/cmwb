@@ -9,16 +9,6 @@ export const passwordDbName = 'cmwb_users2'
 export const mongoDbHost = 'mongodb://localhost:27017'
 export const containerMongoDbHost = 'mongodb://mongodb:27017'
 
-
-
-// email settings
-export const MAIL_HOST = 'webmail.tue.nl'
-export const MAIL_HOST_PORT = 587
-export const MAIL_USER = "svc-es-compute@tue.nl"
-export const MAIL_PASS = "<passw>"
-
-
-
 // codegen settings
 export const webAppRoot = `${appRoot}`
 export const binDir = `${webAppRoot}/bin`

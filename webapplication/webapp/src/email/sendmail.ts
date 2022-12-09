@@ -2,21 +2,22 @@ import nodemailer from 'nodemailer'
 import Mail from 'nodemailer/lib/mailer'
 import requireText from 'require-text'
 import { Logger } from 'winston'
-// import { logger } from './config/winston'
 import { BASE_PATH, BASE_URL } from '../config/config'
-import { MAIL_HOST, MAIL_HOST_PORT, MAIL_PASS, MAIL_USER } from '../config/serverconfig'
 import { logger } from '../config/winston'
+
+const smtpConfig = require('../../config/smtpauth.json')
+
 
 var transporter: Mail
 
-export function setupSMTP(logger: Logger) {
+export async function setupSMTP(logger: Logger) {
 
     transporter = nodemailer.createTransport({
-        host: MAIL_HOST,
-        port: MAIL_HOST_PORT,
+        host: smtpConfig.host,
+        port: smtpConfig.port,
         auth: {
-            user: MAIL_USER,
-            pass: MAIL_PASS
+            user: smtpConfig.user,
+            pass: smtpConfig.password
         },
         secure: false
     })
@@ -46,7 +47,7 @@ function sendHTMLEmail(htmlBodyTemplate: string, data: any, subject: string, rec
 
     
     const mailOptions:Mail.Options = {
-        from: MAIL_USER,
+        from: smtpConfig.user,
         replyTo: `noreply@tue.nl`,
         to: recipientEmail,
         subject: subject,

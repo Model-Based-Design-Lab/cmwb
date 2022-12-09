@@ -15,7 +15,6 @@ import { setupSMTP } from './email/sendmail'
 import { ModelsDb, ModelsDbStub, ModelsMongooseDb } from './database/modelsdb'
 import { getModelsAPI } from './api/models'
 import { getAnalysisAPI } from './api/analysis/analysis'
-import { getQuizAPI } from './api/quiz'
 import { getPublicStaticFilesAPI, getRestrictedStaticFilesAPI } from './api/staticfiles'
 import { containerMongoDbHost, mongoDbHost } from './config/serverconfig'
 
