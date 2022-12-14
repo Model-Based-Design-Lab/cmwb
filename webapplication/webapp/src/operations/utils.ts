@@ -113,3 +113,15 @@ export function extractPartitioning(outputText: string) {
     }
     return sets
 }
+
+export function extractInconsistentCycle(outputText: string) {
+
+    // match the sets of actors
+    var actorsRegex = /following actors:\s(.*?)$/g
+    var matchArray: any[]
+    var actors = []
+    while ((matchArray = actorsRegex.exec(outputText)) !== null) {
+        actors.push(splitStates(matchArray[1]))
+    }
+    return actors
+}

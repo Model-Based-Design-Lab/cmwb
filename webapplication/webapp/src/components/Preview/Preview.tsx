@@ -68,6 +68,10 @@ class PreviewAnimation {
         return this.setPartitioning([states])
     }
 
+    public async setSetOfActors(states: string[]) {
+        return this.setPartitioning([states])
+    }
+
     public async setPartitioning(partitioning: string[][]) {
         const oldColors = this.getCurrentColorMap()
         const partitioningColors = this.makePartitioningColorMap(partitioning)
@@ -150,6 +154,10 @@ export class Preview extends React.Component<Props,State> {
         animator.setPartitioning(partitioning)
     }
 
+    public setAnimationSetOfActors(actors: string[][]){
+        var animator = new PreviewAnimation(this.getSVGNode())
+        animator.setPartitioning(actors)
+    }
 
     private async loadPreview(modelId: string){
         try {

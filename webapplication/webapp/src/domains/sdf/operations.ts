@@ -2,6 +2,7 @@ import { DomMPM, DomSDF } from "../../config/model"
 import { ModelsController } from "../../controller/modelscontroller"
 import { MPMAnalysisController } from "../../controller/mpmanalysiscontroller"
 import { SDFAnalysisController } from "../../controller/sdfanalysiscontroller"
+import { extractInconsistentCycle } from "../../operations/utils"
 import { FileExtensionSDF3, FileExtensionSVG, MimeTypeSDF3, MimeTypeSVG } from "../../utils/filetypes"
 import { isInteger } from "../../utils/utils"
 import { buildArguments, Operation, ValidateModelName, ValidateNonNegativeInteger, ValidateNumber, ValidatePositiveInteger } from "../operations"
@@ -280,9 +281,12 @@ export async function makeOperation(op: OpSDF, component: any): Promise<Operatio
 
 		case OpSDF.RepetitionVector:
 			operation.setOperation(()=>SDFAnalysisController.repetitionVector(args.modelId))
-			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The repetition vector of the graph ${component.getModelName(args.modelId)} is:\n${tResult}`))
-			break
-	
+			operation.setPostProcessing(async tResult => {
+				component.processAnalysisResult(`The repetition vector of the graph ${component.getModelName(args.modelId)} is:\n${tResult}`)
+				component.setAnimationSetOfActors(extractInconsistentCycle(tResult))
+			})
+			break				
+
 		case OpSDF.CheckDeadlock:
 			operation.setOperation(()=>SDFAnalysisController.checkDeadlock(args.modelId))
 			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The deadlock analysis of the graph ${component.getModelName(args.modelId)} is as follows.\n${tResult}`))
