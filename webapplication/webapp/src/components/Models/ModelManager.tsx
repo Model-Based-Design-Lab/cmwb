@@ -365,6 +365,10 @@ class ModelManager extends React.Component<Props, State> {
         this.preview.current.setAnimationSetOfStates(states)
     }
 
+    public setAnimationSetOfActors(states: string[]){
+        this.preview.current.setAnimationSetOfActors(states)
+    }
+
     public setAnimationPartitioning(partitioning: string[][]){
         this.preview.current.setAnimationPartitioning(partitioning)
     }
