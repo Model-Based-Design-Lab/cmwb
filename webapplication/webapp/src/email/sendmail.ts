@@ -85,6 +85,8 @@ export function sendVerificationEmail(recipientEmail: string, recipientName: str
 
 export function sendResetPasswordEmail(recipientEmail: string, recipientName: string, userId: string, verificationToken: string) {
 
+    // TODO: this fails in production build, the dir with templates is not packed. Problem seems some have appeared after adding the require of smtpConfigText, Line 9.
+    // Currently fixed by manually copying the files into the distribution
     const resetPasswordTemplate = requireText('./templates/resetPasswordEmail.html', require)
     const data = {
         name: recipientName,
