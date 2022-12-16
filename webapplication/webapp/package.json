@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
-    "postbuild": "cp -r ./src/config/distconfig ./dist/",
+    "postbuild": "cp -r ./src/config/distconfig ./dist/config/",
     "nextbuild": "cd src && next build",
     "start": "node ./dist/server.js",
     "debug": "node ./dist/server.js debug",

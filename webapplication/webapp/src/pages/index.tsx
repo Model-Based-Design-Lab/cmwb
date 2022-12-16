@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Container from 'react-bootstrap/Container'
 
-const build = require('../config/build.json')
+const build = require('../config/distconfig/build.json')
 
 export default function Index() {
     return (

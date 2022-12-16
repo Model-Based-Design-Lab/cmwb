@@ -8,7 +8,7 @@ import { logger } from '../config/winston'
 
 const smtpConfig = require('../../config/smtpauth.json')
 
-const smtpConfig = require('../distconfig/smtpconfig.json')
+const smtpConfig = require('../config/distconfig/smtpconfig.json')
 
 
 var transporter: Mail

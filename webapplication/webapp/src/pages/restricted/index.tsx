@@ -7,7 +7,7 @@ import { MODELS_PAGE_URL } from '../../config/config'
 import { ModuleColors, ModuleDTMC, ModuleFSA, ModuleNames, ModuleSDF } from '../../config/model'
 import { historyPush } from '../../utils/routing'
 
-const build = require('../../config/build.json')
+const build = require('../../config/distconfig/build.json')
 
 export default function Index(props: any) {
 
