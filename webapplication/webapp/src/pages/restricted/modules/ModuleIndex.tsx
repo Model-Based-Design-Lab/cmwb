@@ -300,6 +300,9 @@ export class ModuleIndex extends React.Component<Props, State> {
         this.modelManager.current.setAnimationPartitioning(partitioning)
     }
 
+    public setAnimationSetOfActors(actors: string[]){
+        this.modelManager.current.setAnimationSetOfActors(actors)
+    }
 
     private startOperationTimeout(onCancel: ()=>void, onTimeout: ()=>void) {
         this.progressNote.current.show(onCancel, onTimeout)

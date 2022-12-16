@@ -37,10 +37,13 @@ class PreviewAnimation {
     }
 
     public setColor(nodeName: string, color: string) {
-        var node = (this.nodeMap.get(nodeName).getElementsByTagName("ellipse"))[0]
-        const oldColor = node.getAttribute("fill")
-        node.setAttribute("fill", color)
-        return oldColor
+        var nodeP = this.nodeMap.get(nodeName)
+        if (nodeP) {
+            var node = (this.nodeMap.get(nodeName).getElementsByTagName("ellipse"))[0]
+            const oldColor = node.getAttribute("fill")
+            node.setAttribute("fill", color)
+            return oldColor
+        }
     }
 
     public getColor(nodeName: string) {
@@ -65,6 +68,10 @@ class PreviewAnimation {
     }
 
     public async setSetOfStates(states: string[]) {
+        return this.setPartitioning([states])
+    }
+
+    public async setSetOfActors(states: string[]) {
         return this.setPartitioning([states])
     }
 
@@ -119,7 +126,7 @@ class PreviewAnimation {
 
 
 export class Preview extends React.Component<Props,State> {
-    
+
     constructor(props: any) {
         super(props)
         this.previewNode = React.createRef()
@@ -150,6 +157,10 @@ export class Preview extends React.Component<Props,State> {
         animator.setPartitioning(partitioning)
     }
 
+    public setAnimationSetOfActors(actors: string[]){
+        var animator = new PreviewAnimation(this.getSVGNode())
+        animator.setSetOfActors(actors)
+    }
 
     private async loadPreview(modelId: string){
         try {
@@ -158,7 +169,7 @@ export class Preview extends React.Component<Props,State> {
             this.setState({modelId: modelId, loading: false, failed: false})
         } catch (error) {
             this.setState({modelId: modelId, loading: false, failed: true})
-        }        
+        }
     }
 
     private async getPreviewImage(previewPath: string){
@@ -173,7 +184,7 @@ export class Preview extends React.Component<Props,State> {
     private getSVGNode() {
         if (! this.previewNode.current) {
             throw new Error("There is no preview image.");
-            
+
         }
         return this.previewNode.current.getElementsByTagName("svg")[0]
     }

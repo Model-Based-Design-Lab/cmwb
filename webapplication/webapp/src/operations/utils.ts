@@ -88,6 +88,9 @@ function splitStates(states: string): string[]
     while(states.length > 0) {
         [state, states] = removeStateFromFront(states)
         states = states.trim()
+        while (states.indexOf(",")==0) {
+            states = states.substring(1).trim()
+        }
         if (states.length == oldLength) throw new Error("Something went wrong.")
         oldLength = states.length
         result.push(state)
@@ -112,4 +115,17 @@ export function extractPartitioning(outputText: string) {
         sets.push(extractSetOfStates(matchArray[0]))
     }
     return sets
+}
+
+export function extractInconsistentCycle(outputText: string) {
+
+    // match the sets of actors
+    var actorsRegex = /following actors:\s(.*?)$/gm
+    var matchArray: any[]
+    var actors = []
+    while ((matchArray = actorsRegex.exec(outputText)) !== null) {
+        var ss = splitStates(matchArray[1])
+        actors.push(...ss)
+    }
+    return actors
 }
