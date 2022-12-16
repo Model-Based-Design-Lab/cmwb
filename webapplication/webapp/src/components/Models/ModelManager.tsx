@@ -90,7 +90,7 @@ class ModelManager extends React.Component<Props, State> {
         const stateList = await DTMCAnalysisController.getRecurrentStates(model.id)
         return stateList.split(',').map(s=>s.trim())
     }
-    
+
     public async getSelectedModelEventSequences(): Promise<string[]> {
         const model: IExternalCompModModel = this.modelMap.get(this.state.selectedModel)
         // only for MPM!
@@ -121,7 +121,7 @@ class ModelManager extends React.Component<Props, State> {
                 inputLabels = await SDFAnalysisController.getInputLabels(model.id)
                 return inputLabels.split(',').map((s: string)=>s.trim()).filter((s: string)=>s.length>0)
                 break;
-            
+
             default:
                 return []
                 break;
@@ -136,7 +136,7 @@ class ModelManager extends React.Component<Props, State> {
                 const stateLabels = await SDFAnalysisController.getStateLabels(model.id)
                 return stateLabels.split(',').map((s: string)=>s.trim()).filter((s: string)=>s.length>0)
                 break;
-            
+
             default:
                 return []
                 break;
@@ -167,7 +167,7 @@ class ModelManager extends React.Component<Props, State> {
             this.setState({ selectedModel: modelId }, ()=>{
                 if (this.props.onSelect){
                     this.props.onSelect(this.modelMap.get(modelId))
-                }    
+                }
             })
         }
     }
@@ -246,7 +246,7 @@ class ModelManager extends React.Component<Props, State> {
                 `Delete model ${this.modelMap.get(this.state.selectedModel).name}. Are you sure?`,
                 () => {
                     ModelsController.deleteModel(this.state.selectedModel)
-                    .then(() => this.refreshModels())                        
+                    .then(() => this.refreshModels())
                     .catch (error => this.notification.current.showError("Delete", error.toString()))
                 }
             )
@@ -259,7 +259,7 @@ class ModelManager extends React.Component<Props, State> {
             `Delete all scratch models. Are you sure?`,
             () => {
                 ModelsController.deleteScratchModuleModels(this.props.module)
-                .then(() => this.refreshModels())                        
+                .then(() => this.refreshModels())
                 .catch (error => this.notification.current.showError("Delete", error.toString()))
             }
         )
@@ -301,7 +301,7 @@ class ModelManager extends React.Component<Props, State> {
         if (this.isModelSelected()) {
             this.modelNameEditTextDialog.current.show(
                 "Rename Model",
-                `Please provide a name for model ${this.modelMap.get(this.state.selectedModel).name}`, 
+                `Please provide a name for model ${this.modelMap.get(this.state.selectedModel).name}`,
                 "ModelName",
                 this.modelMap.get(this.state.selectedModel).name,
                 (n: string) => ValidModelNameRegEx.test(n),
@@ -385,13 +385,13 @@ class ModelManager extends React.Component<Props, State> {
         return (
             <Container fluid>
                 <WelcomeMessage user={this.state.user}/>
-                <ListsOfModels 
-                    models={this.state.models} 
+                <ListsOfModels
+                    models={this.state.models}
                     accessibleGroups={this.state.accessibleGroups}
-                    module={this.props.module} 
-                    selected={this.state.selectedModel} 
-                    onSelect={modelId => this.selectModel(modelId)} 
-                    onDoubleClick={_modelId => this.openModel()} 
+                    module={this.props.module}
+                    selected={this.state.selectedModel}
+                    onSelect={modelId => this.selectModel(modelId)}
+                    onDoubleClick={_modelId => this.openModel()}
                     user={this.props.user} />
                 <Preview ref={this.preview}></Preview>
                 <IconButton icon={openIcon} label="Open" onClick={() => this.openModel()}></IconButton>{' '}
