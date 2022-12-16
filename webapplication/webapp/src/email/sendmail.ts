@@ -6,7 +6,8 @@ import { BASE_PATH, BASE_URL } from '../config/config'
 import { logger } from '../config/winston'
 
 
-const smtpConfig = require('../config/distconfig/smtpconfig.json')
+const smtpConfigText = requireText('../config/distconfig/smtpconfig.json', require)
+const smtpConfig = JSON.parse(smtpConfigText)
 
 var transporter: Mail
 
