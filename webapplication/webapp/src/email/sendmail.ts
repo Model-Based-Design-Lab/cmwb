@@ -6,10 +6,7 @@ import { BASE_PATH, BASE_URL } from '../config/config'
 import { logger } from '../config/winston'
 
 
-const smtpConfig = require('../../config/smtpauth.json')
-
 const smtpConfig = require('../config/distconfig/smtpconfig.json')
-
 
 var transporter: Mail
 
