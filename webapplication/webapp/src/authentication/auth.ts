@@ -151,8 +151,6 @@ export function setupPassport(server: Express, passwordDb: PasswordUserDb, local
     }
 
     // set restriction to all routes under BASE_PATH_RESTRICTED
-    if (! localMode) {
-        server.use(BASE_PATH_RESTRICTED, restrictAccess)
-    }
+    server.use(BASE_PATH_RESTRICTED, restrictAccess)
 
 }

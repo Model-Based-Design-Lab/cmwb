@@ -2,6 +2,7 @@ import { DomMPM, DomSDF } from "../../config/model"
 import { ModelsController } from "../../controller/modelscontroller"
 import { MPMAnalysisController } from "../../controller/mpmanalysiscontroller"
 import { SDFAnalysisController } from "../../controller/sdfanalysiscontroller"
+import { extractInconsistentCycle } from "../../operations/utils"
 import { FileExtensionSDF3, FileExtensionSVG, MimeTypeSDF3, MimeTypeSVG } from "../../utils/filetypes"
 import { isInteger } from "../../utils/utils"
 import { buildArguments, Operation, ValidateModelName, ValidateNonNegativeInteger, ValidateNumber, ValidatePositiveInteger } from "../operations"
@@ -9,7 +10,7 @@ import { buildArguments, Operation, ValidateModelName, ValidateNonNegativeIntege
 export enum OpSDF {
     CreateSDF,
     CreateMPM,
-	
+
 	// operations on dataflow models
     RepetitionVector,
     CheckDeadlock,
@@ -18,14 +19,14 @@ export enum OpSDF {
     ConvertToSingleRate,
     StateMatrix,
     StateSpaceMatrices,
-    GanttChart,	
-	
+    GanttChart,
+
 	// conversion operations on dataflow models
     ConvertStateMatrixModel,
     ConvertStateSpaceMatricesModel,
     ConvertSDF3,
     ConvertSVG,
-	
+
 	// operations on max-plus matrices
     MPMLargestEigenValue,
     MPMEigenVectors,
@@ -42,7 +43,7 @@ export enum OpSDF {
     MPMMultiplyTransform,
     MPMComputeOutputVectorTraceOfStateSpace,
     MPMComputeOutputVectorTraceOfStateSpaceTransform,
-    MPMVisualizeVectorTrace,	
+    MPMVisualizeVectorTrace,
 }
 
 export const OpSDFDescriptions= new Map<OpSDF,string>([
@@ -57,7 +58,7 @@ export const OpSDFDescriptions= new Map<OpSDF,string>([
     [OpSDF.Latency, "Latency"],
     [OpSDF.StateMatrix, "State Matrix"],
     [OpSDF.StateSpaceMatrices, "State-Space Matrices"],
-    [OpSDF.GanttChart, "Gantt Chart"],	
+    [OpSDF.GanttChart, "Gantt Chart"],
 
 // conversion operations on dataflow models
     [OpSDF.ConvertStateMatrixModel, "Convert to State Matrix"],
@@ -131,7 +132,7 @@ export const OperationsOnMaxPlusMatrices = [
 
 const OperationArguments = new Map<OpSDF,any>([
 	[OpSDF.CreateSDF, [
-		{type: 'text', name: 'modelName', question: 'Please enter a name for the new model.', placeholder: "ModelName", validate: ValidateModelName}, 
+		{type: 'text', name: 'modelName', question: 'Please enter a name for the new model.', placeholder: "ModelName", validate: ValidateModelName},
 		{type: 'userName', name: 'userName'}
 	]],
 	[OpSDF.RepetitionVector, [
@@ -185,7 +186,7 @@ const OperationArguments = new Map<OpSDF,any>([
 		{type: 'selectedModelName', name:'modelName'},
 	]],
 	[OpSDF.CreateMPM, [
-		{type: 'text', name: 'modelName', question: 'Please enter a name for the new model.', placeholder: "ModelName", validate: ValidateModelName}, 
+		{type: 'text', name: 'modelName', question: 'Please enter a name for the new model.', placeholder: "ModelName", validate: ValidateModelName},
 		{type: 'userName', name: 'userName'}
 	]],
 	[OpSDF.MPMLargestEigenValue, [
@@ -286,9 +287,12 @@ export async function makeOperation(op: OpSDF, component: any): Promise<Operatio
 
 		case OpSDF.RepetitionVector:
 			operation.setOperation(()=>SDFAnalysisController.repetitionVector(args.modelId))
-			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The repetition vector of the graph ${component.getModelName(args.modelId)} is:\n${tResult}`))
+			operation.setPostProcessing(async tResult => {
+				component.processAnalysisResult(`The repetition vector of the graph ${component.getModelName(args.modelId)} is:\n${tResult}`)
+				component.setAnimationSetOfActors(extractInconsistentCycle(tResult))
+			})
 			break
-	
+
 		case OpSDF.CheckDeadlock:
 			operation.setOperation(()=>SDFAnalysisController.checkDeadlock(args.modelId))
 			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The deadlock analysis of the graph ${component.getModelName(args.modelId)} is as follows.\n${tResult}`))
@@ -311,17 +315,17 @@ export async function makeOperation(op: OpSDF, component: any): Promise<Operatio
 				component.refreshModels()
 			})
 			break
-			
+
 		case OpSDF.StateMatrix:
 			operation.setOperation(()=>SDFAnalysisController.stateMatrix(args.modelId))
 			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The max-plus state matrix of the graph ${component.getModelName(args.modelId)} is as follows.\n${tResult}`))
 			break
-	
+
 		case OpSDF.StateSpaceMatrices:
 			operation.setOperation(()=>SDFAnalysisController.stateSpaceMatrices(args.modelId))
 			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The state-space max-plus matrices of the graph ${component.getModelName(args.modelId)} are as follows.\n${tResult}`))
 			break
-		
+
 			case OpSDF.ConvertStateMatrixModel:
 			operation.setOperation(() => SDFAnalysisController.makeStateMatrixModel(args.modelId, args.userId, args.userName))
 			operation.setPostProcessing(async newName => {
@@ -354,19 +358,19 @@ export async function makeOperation(op: OpSDF, component: any): Promise<Operatio
 			operation.setOperation(() => SDFAnalysisController.convertToSDF3(args.modelId, args.modelName))
 			operation.setPostProcessing(async artifact => component.processDownloadArtifact(`SDF3 model of ${args.modelName}`,artifact, MimeTypeSDF3, `${args.modelName}.${FileExtensionSDF3}`))
 			break
-	
+
 		// MPM operations
 
 		case OpSDF.CreateMPM:
 			operation.setOperation(()=>ModelsController.newModel(args.modelName, DomMPM, args.userName))
 			operation.setPostProcessing(async _result => component.refreshModels() )
 			break
-	
+
 		case OpSDF.MPMLargestEigenValue:
 			operation.setOperation(()=>MPMAnalysisController.largestEigenValue(args.modelId, args.matrix))
 			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The largest eigenvalue analysis of ${component.getModelName(args.modelId)} is as follows.\n${tResult}`))
 			break
-	
+
 		case OpSDF.MPMEigenVectors:
 			operation.setOperation(()=>MPMAnalysisController.eigenVectors(args.modelId, args.matrix))
 			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The eigenvector analysis of ${component.getModelName(args.modelId)} is as follows.\n${tResult}`))
@@ -381,7 +385,7 @@ export async function makeOperation(op: OpSDF, component: any): Promise<Operatio
 			operation.setOperation(() => MPMAnalysisController.viewPrecedencegraph(args.modelId, args.modelName, args.matrix))
 			operation.setPostProcessing(async artifact => component.processAnalysisResultImage(`Precedence Graph of ${args.matrix}`, artifact))
 			break
-				
+
 
 		case OpSDF.MPMConvolutionAnalysis:
 			operation.setOperation(()=>MPMAnalysisController.convolution(args.modelId, args.eventSequences))
@@ -423,7 +427,7 @@ export async function makeOperation(op: OpSDF, component: any): Promise<Operatio
 			operation.setOperation(()=>MPMAnalysisController.starClosure(args.modelId, args.matrix))
 			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The *-closure analysis of ${component.getModelName(args.modelId)} is as follows.\n${tResult}`))
 			break
-				
+
 		case OpSDF.MPMMultiply:
 			operation.setOperation(()=>MPMAnalysisController.multiply(args.modelId, args.multiplicationList.matrices, args.multiplicationList.vectorSequences))
 			operation.setPostProcessing(async tResult => component.processAnalysisResult(tResult))
@@ -436,7 +440,7 @@ export async function makeOperation(op: OpSDF, component: any): Promise<Operatio
 				component.refreshModels()
 			})
 			break
-	
+
 		case OpSDF.MPMComputeOutputVectorTraceOfStateSpace:
 			operation.setOperation(()=>MPMAnalysisController.outputVectorTraceOfStateSpace(args.modelId, args.numberOfIterations, args.initialState, args.inputSequences))
 			operation.setPostProcessing(async tResult => component.processAnalysisResult(tResult))
@@ -449,7 +453,7 @@ export async function makeOperation(op: OpSDF, component: any): Promise<Operatio
 				component.refreshModels()
 			})
 			break
-	
+
 
 		case OpSDF.MPMVisualizeVectorTrace:
 			operation.setOperation(()=>MPMAnalysisController.visualizeVectorSequence(args.modelId, args.modelName, args.userId, args.userName, args.eventAndVectorSequences))
