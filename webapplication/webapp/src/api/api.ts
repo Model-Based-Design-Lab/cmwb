@@ -129,6 +129,7 @@ export const ApiAnalysisSDFCheckDeadlock = '/api/models/analysis/sdf/checkdeadlo
 export const ApiAnalysisSDFThroughput = '/api/models/analysis/sdf/throughput'
 export const ApiAnalysisSDFLatency = '/api/models/analysis/sdf/latency'
 export const ApiAnalysisSDFConvertToSingleRate = '/api/models/analysis/sdf/converttosinglerate'
+export const ApiAnalysisSDFStateMatrix = '/api/models/analysis/sdf/statematrix'
 export const ApiAnalysisSDFStateSpaceMatrices = '/api/models/analysis/sdf/statespacematrices'
 export const ApiAnalysisSDFMakeStateMatrixModel = '/api/models/analysis/sdf/makestatematrixmodel'
 export const ApiAnalysisSDFMakeStateSpaceMatricesModel = '/api/models/analysis/sdf/makestatespacematricesmodel'

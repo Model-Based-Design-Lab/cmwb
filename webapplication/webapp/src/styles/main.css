@@ -102,3 +102,38 @@ article {
     background-color: #e9ecef;
     border-radius: .3rem;
   }
+
+  .cmwb.footer {
+    position: fixed;
+    left:0;
+    bottom:0;
+    background-color: rgb(246, 246, 246);
+    height:40px;
+    width:100%;
+}
+  
+  .cmwb.foottext {
+    color: rgb(0, 0, 0);
+    font-family: "Segoe UI",Arial,sans-serif;
+    font-size: 14pt;
+    /* font-weight: bold; */
+    position: relative;
+    top:2px;
+    left: 20%;
+  }
+  
+  .cmwb.align-right {
+    position: fixed;
+    right:2px;
+    bottom: 0px;
+  }
+
+  .cmwb.hrule {
+    display: block;
+    background-color: #000000;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    height: 2px;
+  }

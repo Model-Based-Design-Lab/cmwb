@@ -30,16 +30,20 @@ export async function latency(sdf: string, period: number): Promise<string> {
     return await sdfOperationWithStringResult(sdf, (f, g) => `"${binLibSdf}" --operation generalizedlatency ${f} -p ${period} > ${g} `)
 }
 
+export async function stateMatrix(sdf: string): Promise<string> {
+    return await sdfOperationWithStringResult(sdf, (f, g) => `"${binLibSdf}" --operation statematrix ${f} > ${g} `)
+}
+
 export async function stateSpaceMatrices(sdf: string): Promise<string> {
-    return await sdfOperationWithStringResult(sdf, (f, g) => `"${binLibSdf}" --operation statespacerepresentation ${f} > ${g} `)
+    return await sdfOperationWithStringResult(sdf, (f, g) => `"${binLibSdf}" --operation statespacematrices ${f} > ${g} `)
 }
 
 export async function convertToStateMatrix(sdf: string): Promise<string> {
-    return await ops.transformingOperation(sdf, 'statematrix', new Map(), domExtensions.get(DomSDF), domExtensions.get(DomMPM), DomSDF)
+    return await ops.transformingOperation(sdf, 'statematrixmodel', new Map(), domExtensions.get(DomSDF), domExtensions.get(DomMPM), DomSDF)
 }
 
 export async function convertToStateSpaceMatrices(sdf: string): Promise<string> {
-    return await ops.transformingOperation(sdf, 'statespacematrices', new Map(), domExtensions.get(DomSDF), domExtensions.get(DomMPM), DomSDF)
+    return await ops.transformingOperation(sdf, 'statespacematricesmodel', new Map(), domExtensions.get(DomSDF), domExtensions.get(DomMPM), DomSDF)
 }
 
 export async function convertToSingleRate(sdf: string): Promise<string> {

@@ -17,6 +17,7 @@ export enum OpSDF {
     Throughput,
     Latency,
     ConvertToSingleRate,
+    StateMatrix,
     StateSpaceMatrices,
     GanttChart,
 
@@ -55,11 +56,12 @@ export const OpSDFDescriptions= new Map<OpSDF,string>([
     [OpSDF.CheckDeadlock, "Check Deadlock"],
     [OpSDF.Throughput, "Throughput"],
     [OpSDF.Latency, "Latency"],
+    [OpSDF.StateMatrix, "State Matrix"],
     [OpSDF.StateSpaceMatrices, "State-Space Matrices"],
     [OpSDF.GanttChart, "Gantt Chart"],
 
 // conversion operations on dataflow models
-    [OpSDF.ConvertStateMatrixModel, "Convert to Matrix"],
+    [OpSDF.ConvertStateMatrixModel, "Convert to State Matrix"],
     [OpSDF.ConvertToSingleRate, "Convert to Single-Rate"],
     [OpSDF.ConvertStateSpaceMatricesModel, "Make State-space Matrices Model"],
     [OpSDF.ConvertSDF3, "Convert to SDF3 xml format"],
@@ -95,14 +97,15 @@ export const OperationsOnDataFlowModels = [
 	OpSDF.CheckDeadlock,
 	OpSDF.Throughput,
 	OpSDF.Latency,
+	OpSDF.StateMatrix,
 	OpSDF.StateSpaceMatrices,
 	OpSDF.GanttChart,
 ]
 
 export const ConversionOperationsOnDataFlowModels = [
 	OpSDF.ConvertToSingleRate,
-	OpSDF.ConvertStateSpaceMatricesModel,
 	OpSDF.ConvertStateMatrixModel,
+	OpSDF.ConvertStateSpaceMatricesModel,
 	OpSDF.ConvertSDF3,
 	OpSDF.ConvertSVG,
 ]
@@ -149,6 +152,9 @@ const OperationArguments = new Map<OpSDF,any>([
 		{type: 'selectedModelId', name:'modelId'},
 		{type: 'userId', name:'userId'},
 		{type: 'userName', name:'userName'}
+	]],
+	[OpSDF.StateMatrix, [
+		{type: 'selectedModelId', name:'modelId'},
 	]],
 	[OpSDF.StateSpaceMatrices, [
 		{type: 'selectedModelId', name:'modelId'},
@@ -310,12 +316,17 @@ export async function makeOperation(op: OpSDF, component: any): Promise<Operatio
 			})
 			break
 
+		case OpSDF.StateMatrix:
+			operation.setOperation(()=>SDFAnalysisController.stateMatrix(args.modelId))
+			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The max-plus state matrix of the graph ${component.getModelName(args.modelId)} is as follows.\n${tResult}`))
+			break
+
 		case OpSDF.StateSpaceMatrices:
 			operation.setOperation(()=>SDFAnalysisController.stateSpaceMatrices(args.modelId))
 			operation.setPostProcessing(async tResult => component.processAnalysisResult(`The state-space max-plus matrices of the graph ${component.getModelName(args.modelId)} are as follows.\n${tResult}`))
 			break
 
-		case OpSDF.ConvertStateMatrixModel:
+			case OpSDF.ConvertStateMatrixModel:
 			operation.setOperation(() => SDFAnalysisController.makeStateMatrixModel(args.modelId, args.userId, args.userName))
 			operation.setPostProcessing(async newName => {
 				component.processAnalysisResult(`The new max-plus model is ${newName}.`)

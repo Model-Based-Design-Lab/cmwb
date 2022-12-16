@@ -5,6 +5,7 @@ import '../styles/main.css'
 import 'w3-css/w3.css'
 import { Container, SSRProvider } from 'react-bootstrap'
 import Navigation from '../components/Navigation/Navigation'
+import { Footer } from '../components/Footer/Footer'
 
 class MyApp extends App {
 
@@ -52,6 +53,7 @@ class MyApp extends App {
                     <article>
                         <Component {...pageProps} />
                     </article>
+                    <Footer/>
                 </Container>
             </SSRProvider>
         )

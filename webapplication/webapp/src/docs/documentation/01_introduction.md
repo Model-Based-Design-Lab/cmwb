@@ -2,11 +2,11 @@
 
 The modeling workbench has been set up for the course 5xie0, computational modeling and for anyone interested in models of computation.
 
-The workbench has been tested to work with the [Google Chrome](https://www.google.com/chrome/ "Google Chrome") and [Microsoft Edge Chromium](https://www.microsoft.com/edge/ "Microsoft Edge Chromium") web browsers. Other browsers may also work, but have currently not been tested and are not actively supported.
+The workbench has been tested to work with the [Google Chrome](https://www.google.com/chrome/ "Google Chrome") and [Microsoft Edge](https://www.microsoft.com/edge/ "Microsoft Edge") Chromium web browsers. Other browsers may also work, but have currently not been tested and are not actively supported.
 
 ## Disclaimer
 
-If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email at m.c.w.geilen@tue.nl
+If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email at <m.c.w.geilen@tue.nl>
 
 ### Disclaimers for the Computation Modeling Workbench
 
