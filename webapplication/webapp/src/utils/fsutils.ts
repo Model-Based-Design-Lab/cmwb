@@ -28,7 +28,7 @@ export async function fsWriteFile(filename: string, content: string, encoding: B
     })
 }
 
-export async function fsReadFile(filename: string, encoding: BufferEncoding = EncodingUTF8): Promise<string> {
+async function fsReadFile(filename: string, encoding: BufferEncoding = EncodingUTF8): Promise<string> {
     return new Promise<string>((resolve, reject) => {
         fs.readFile(filename, encoding, (error, data) => {
             if (error) reject(error)

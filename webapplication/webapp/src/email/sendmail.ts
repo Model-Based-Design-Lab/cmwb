@@ -4,7 +4,7 @@ import { Logger } from 'winston'
 import { BASE_PATH, BASE_URL } from '../config/config'
 import { configDir, smtpConfigFile } from '../config/serverconfig'
 import { logger } from '../config/winston'
-import { fsReadFile, fsReadJSONFile } from '../utils/fsutils'
+import { fsReadDirRestrictedFile, fsReadJSONFile } from '../utils/fsutils'
 
 
 
@@ -59,7 +59,6 @@ function sendHTMLEmail(htmlBodyTemplate: string, data: any, subject: string, rec
         const re = new RegExp(find, 'g')    
         htmlBody = htmlBody.replace(re, strValue)
     }
-
     
     const mailOptions:Mail.Options = {
         from: smtpConfig.user,
@@ -87,7 +86,7 @@ const makeLink = (userId: string, verificationToken: string) => `${BASE_URL}${BA
 export async function sendVerificationEmail(recipientEmail: string, recipientName: string, userId: string, verificationToken: string) {
 
     try {
-        const verificationTemplate =  await fsReadFile(`${configDir}/templates/verifyEmail.html`)
+        const verificationTemplate =  await fsReadDirRestrictedFile(`${configDir}/templates/verifyEmail.html`, configDir)
 
         const data = {
             name: recipientName,
@@ -105,7 +104,7 @@ export async function sendVerificationEmail(recipientEmail: string, recipientNam
 export async function sendResetPasswordEmail(recipientEmail: string, recipientName: string, userId: string, verificationToken: string) {
 
     try {
-        const resetPasswordTemplate = await fsReadFile(`${configDir}/templates/resetPasswordEmail.html`)
+        const resetPasswordTemplate = await fsReadDirRestrictedFile(`${configDir}/templates/resetPasswordEmail.html`, configDir)
     
         const data = {
             name: recipientName,
