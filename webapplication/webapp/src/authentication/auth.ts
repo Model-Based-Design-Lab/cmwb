@@ -112,7 +112,9 @@ export function setupPassport(server: Express, passwordDb: PasswordUserDb, local
                     passwordDb.signUpNewUser(name, email, group)
                     .then(({userId, verificationToken}) => {
                         sendVerificationEmail(email, name, userId, verificationToken)
-                        return done(null, {name: name, email: email, isGuest: true})    
+                        .then(()=>{
+                            return done(null, {name: name, email: email, isGuest: true})    
+                        })
                     })
                 })
                 .catch(_reason => done(null, false))

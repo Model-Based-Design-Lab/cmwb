@@ -49,7 +49,6 @@
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.3",
-    "require-text": "^0.0.1",
     "setimmediate": "^1.0.5",
     "tmp": "^0.2.1",
     "ts-mxgraph": "^1.0.0",

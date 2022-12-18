@@ -284,7 +284,7 @@ export class PasswordUserMongooseDb extends PasswordUserDb {
 		if (this.resetPasswordTimeout(user)) throw new Error("Cannot request password reset too soon after previous reset")
 		
 		user.verificationToken = randomHexString(20)
-		sendResetPasswordEmail(user.email, user.name, user.id, user.verificationToken)
+		await sendResetPasswordEmail(user.email, user.name, user.id, user.verificationToken)
 
 		user.lastPasswordReset = new Date()
 		user.verificationTokenCreatedAt = new Date()

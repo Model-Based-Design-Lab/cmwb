@@ -1,17 +1,26 @@
 import nodemailer from 'nodemailer'
 import Mail from 'nodemailer/lib/mailer'
-import requireText from 'require-text'
 import { Logger } from 'winston'
 import { BASE_PATH, BASE_URL } from '../config/config'
+import { configDir, smtpConfigFile } from '../config/serverconfig'
 import { logger } from '../config/winston'
+import { fsReadFile, fsReadJSONFile } from '../utils/fsutils'
 
 
-const smtpConfigText = requireText('../config/distconfig/smtpconfig.json', require)
-const smtpConfig = JSON.parse(smtpConfigText)
 
-var transporter: Mail
+var transporter: Mail = null
+
+var  smtpConfig: {
+    host: string
+    port: number
+    user: string
+    password: string
+}
+
 
 export async function setupSMTP(logger: Logger) {
+
+    smtpConfig = await fsReadJSONFile(smtpConfigFile)
 
     transporter = nodemailer.createTransport({
         host: smtpConfig.host,
@@ -37,6 +46,11 @@ export async function setupSMTP(logger: Logger) {
 
 
 function sendHTMLEmail(htmlBodyTemplate: string, data: any, subject: string, recipientEmail: string) {
+
+    if (! transporter) {
+        logger.warn("SendHTMLEmail called, but transported not valid.")
+        return
+    }
 
     var htmlBody = htmlBodyTemplate
     for (const [key, value] of Object.entries(data)) {
@@ -70,28 +84,38 @@ function sendHTMLEmail(htmlBodyTemplate: string, data: any, subject: string, rec
 const makeLink = (userId: string, verificationToken: string) => `${BASE_URL}${BASE_PATH}/authentication/verify?userId=${userId}&token=${verificationToken}`
 
 
-export function sendVerificationEmail(recipientEmail: string, recipientName: string, userId: string, verificationToken: string) {
+export async function sendVerificationEmail(recipientEmail: string, recipientName: string, userId: string, verificationToken: string) {
 
-    const verificationTemplate = requireText('./templates/verifyEmail.html', require)
-    const data = {
-        name: recipientName,
-        email: recipientEmail,
-        link: makeLink(userId, verificationToken)
+    try {
+        const verificationTemplate =  await fsReadFile(`${configDir}/templates/verifyEmail.html`)
+
+        const data = {
+            name: recipientName,
+            email: recipientEmail,
+            link: makeLink(userId, verificationToken)
+        }
+
+        sendHTMLEmail(verificationTemplate, data, "Computational Modeling Email Verification", recipientEmail)        
+    } catch (error) {
+        logger.error(`Failed to send verification email: ${error}`)
+        throw new Error("Failed to send verification email.");
     }
-
-    sendHTMLEmail(verificationTemplate, data, "Computational Modeling Email Verification", recipientEmail)
-
 }
 
-export function sendResetPasswordEmail(recipientEmail: string, recipientName: string, userId: string, verificationToken: string) {
+export async function sendResetPasswordEmail(recipientEmail: string, recipientName: string, userId: string, verificationToken: string) {
 
-    const resetPasswordTemplate = requireText('./templates/resetPasswordEmail.html', require)
-    const data = {
-        name: recipientName,
-        email: recipientEmail,
-        link: makeLink(userId, verificationToken)
+    try {
+        const resetPasswordTemplate = await fsReadFile(`${configDir}/templates/resetPasswordEmail.html`)
+    
+        const data = {
+            name: recipientName,
+            email: recipientEmail,
+            link: makeLink(userId, verificationToken)
+        }
+    
+        sendHTMLEmail(resetPasswordTemplate, data, "Computational Modeling Password Reset", recipientEmail)            
+    } catch (error) {
+        logger.error(`Failed to send reset email: ${error}`)
+        throw new Error("Failed to send reset email.");
     }
-
-    sendHTMLEmail(resetPasswordTemplate, data, "Computational Modeling Password Reset", recipientEmail)
-
 }
