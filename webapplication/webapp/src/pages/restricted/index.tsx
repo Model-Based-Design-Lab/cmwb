@@ -3,11 +3,11 @@ import Container from 'react-bootstrap/Container'
 import { DomainSelection } from '../../components/Jumbotron/DomainSelection'
 import QuizMessage from '../../components/Welcome/Quiz'
 import WelcomeMessage from '../../components/Welcome/Welcome'
-import { MODELS_PAGE_URL } from '../../config/config'
+import { configPath, MODELS_PAGE_URL } from '../../config/config'
 import { ModuleColors, ModuleDTMC, ModuleFSA, ModuleNames, ModuleSDF } from '../../config/model'
 import { historyPush } from '../../utils/routing'
 
-const build = require('../../config/distconfig/build.json')
+const build = require(`../../${configPath}/build.json`)
 
 export default function Index(props: any) {
 

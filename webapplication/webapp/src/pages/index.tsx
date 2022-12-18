@@ -1,7 +1,8 @@
 import * as React from 'react'
 import Container from 'react-bootstrap/Container'
+import { configPath } from '../config/config'
 
-const build = require('../config/distconfig/build.json')
+const build = require(`../${configPath}/build.json`)
 
 export default function Index() {
     return (

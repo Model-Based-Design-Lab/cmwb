@@ -9,6 +9,7 @@ export const passwordDbName = 'cmwb_users2'
 export const mongoDbHost = 'mongodb://localhost:27017'
 export const containerMongoDbHost = 'mongodb://mongodb:27017'
 
+
 // codegen settings
 export const webAppRoot = `${appRoot}`
 export const binDir = `${webAppRoot}/bin`
@@ -26,6 +27,9 @@ export const sdf3analyzeFsmSadfBin = '/home/es-admin/tools/sdf3/sdf3/build/relea
 
 // export const cmtraceBin = 'cmtrace'
 export const cmtraceBin = `${binDir}/python/cmtrace`
+
+export const configDir = `${webAppRoot}/dist/config/distconfig`
+export const smtpConfigFile = `${configDir}/smtpconfig.json`
 
 // analysis settings
 export const binLibFsa = `${binDir}/python/finitestateautomata`

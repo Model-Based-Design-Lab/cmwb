@@ -3,6 +3,8 @@ import path from 'path'
 import tmp from 'tmp'
 import { codeGenOutputDir, exercisesDir } from '../config/serverconfig'
 
+export const EncodingUTF8 = 'utf8'
+
 export function withTrailingSlash(path: string) {
     if (path.length == 0) return '/'
     if (path.slice(-1) != '/') return path+'/'
@@ -16,7 +18,7 @@ export function removeTrailingSlash(path: string) {
     return path
 }
 
-export async function fsWriteFile(filename: string, content: string, encoding: BufferEncoding = 'utf8'): Promise<void> {
+export async function fsWriteFile(filename: string, content: string, encoding: BufferEncoding = EncodingUTF8): Promise<void> {
     const data = new Uint8Array(Buffer.from(content))
     return new Promise((resolve, reject) => {
         fs.writeFile(filename, data, encoding, err => {
@@ -26,7 +28,7 @@ export async function fsWriteFile(filename: string, content: string, encoding: B
     })
 }
 
-export async function fsReadFile(filename: string, encoding: BufferEncoding = 'utf8'): Promise<string> {
+export async function fsReadFile(filename: string, encoding: BufferEncoding = EncodingUTF8): Promise<string> {
     return new Promise<string>((resolve, reject) => {
         fs.readFile(filename, encoding, (error, data) => {
             if (error) reject(error)
@@ -35,7 +37,7 @@ export async function fsReadFile(filename: string, encoding: BufferEncoding = 'u
     })
 }
 
-export async function fsReadDirRestrictedFile(filename: string, allowedDir: string, encoding: BufferEncoding = 'utf8'): Promise<string> {
+export async function fsReadDirRestrictedFile(filename: string, allowedDir: string, encoding: BufferEncoding = EncodingUTF8): Promise<string> {
     // read file contents
     // only allowed inside the allowed directory
     const absoluteAllowedDir = path.resolve(allowedDir)
@@ -45,13 +47,13 @@ export async function fsReadDirRestrictedFile(filename: string, allowedDir: stri
 }
 
 
-export async function fsReadCodegenFile(filename: string, encoding: BufferEncoding = 'utf8'): Promise<string> {
+export async function fsReadCodegenFile(filename: string, encoding: BufferEncoding = EncodingUTF8): Promise<string> {
     // read file contents
     // only allowed inside the codegen directory
     return fsReadDirRestrictedFile(filename, codeGenOutputDir, encoding)
 }
 
-export async function fsReadExercisesFile(filename: string, encoding: BufferEncoding = 'utf8'): Promise<string> {
+export async function fsReadExercisesFile(filename: string, encoding: BufferEncoding = EncodingUTF8): Promise<string> {
     // read file contents
     // only allowed inside the exercises directory
     return fsReadDirRestrictedFile(filename, exercisesDir, encoding)
@@ -81,7 +83,7 @@ export async function fsReadBinaryCodegenFile(filename: string): Promise<Buffer>
     return fsReadBinaryDirRestrictedFile(filename, codeGenOutputDir)
 }
 
-export async function fsReadJSONFile(filename: string, encoding: BufferEncoding = 'utf8'): Promise<any> {
+export async function fsReadJSONFile(filename: string, encoding: BufferEncoding = EncodingUTF8): Promise<any> {
     return new Promise<Buffer>((resolve, reject) => {
         fs.readFile(filename, encoding, (error, data) => {
             if (error) reject(error)
@@ -90,7 +92,7 @@ export async function fsReadJSONFile(filename: string, encoding: BufferEncoding 
     })
 }
 
-export async function fsReadDirRestrictedJSONFile(filename: string, allowedDir: string, encoding: BufferEncoding = 'utf8'): Promise<any> {
+export async function fsReadDirRestrictedJSONFile(filename: string, allowedDir: string, encoding: BufferEncoding = EncodingUTF8): Promise<any> {
     // read JSON file contents
     // only allowed inside the allowed directory
     const absoluteAllowedDir = path.resolve(allowedDir)
@@ -99,7 +101,7 @@ export async function fsReadDirRestrictedJSONFile(filename: string, allowedDir: 
     return fsReadJSONFile(filename, encoding)
 }
 
-export async function fsReadExerciseJSONFile(filename: string, encoding: BufferEncoding = 'utf8'): Promise<any> {
+export async function fsReadExerciseJSONFile(filename: string, encoding: BufferEncoding = EncodingUTF8): Promise<any> {
     return fsReadDirRestrictedJSONFile(filename, exercisesDir, encoding)
 }
 
@@ -299,7 +301,7 @@ async function saveAsTempFile(contents: string, ext: string): Promise<string> {
     return new Promise((resolve, reject) => {
         newTempFileName(ext)
         .then( tmpName => {
-            fsWriteFile(tmpName, contents, 'utf8')
+            fsWriteFile(tmpName, contents, EncodingUTF8)
             .then(() => resolve(tmpName))
         })
         .catch(err => reject(err))

@@ -32,6 +32,9 @@ export const GeneralGroup = "general"
 export const NoneGroup = "none"
 export const QuizGroup = "quiz"
 
+export const configPath = `config/distconfig`
+
+
 export const BASE_PATH_RESTRICTED = `${BASE_PATH}/restricted`
 
 export const MODELS_PAGE_URL = new Map([
