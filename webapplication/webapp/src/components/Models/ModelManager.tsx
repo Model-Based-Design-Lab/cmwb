@@ -302,7 +302,7 @@ class ModelManager extends React.Component<Props, State> {
             this.modelNameEditTextDialog.current.show(
                 "Rename Model",
                 `Please provide a name for model ${this.modelMap.get(this.state.selectedModel).name}`,
-                "ModelName",
+                this.getSelectedModelName(),
                 this.modelMap.get(this.state.selectedModel).name,
                 (n: string) => ValidModelNameRegEx.test(n),
                 (name) => {
