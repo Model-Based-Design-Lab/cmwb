@@ -3,6 +3,7 @@ import { BASE_PATH, BASE_PATH_RESTRICTED, DEBUG_PORT, PORT } from "./config/conf
 import http from 'http'
 import next from 'next'
 import session from 'express-session'
+import cors from 'cors'
 import uid from 'uid-safe'
 import bodyParser from 'body-parser'
 
@@ -79,6 +80,10 @@ app.prepare().then(async () => {
 
     // set the logging middleware
     server.use(morgan('combined', { stream: stream }))
+
+    // server.use(cors({
+    //     origin: []
+    // }));
 
     // make a log
     logger.info("Computational Modeling Workbench Application Server Starting")

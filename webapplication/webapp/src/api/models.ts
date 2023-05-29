@@ -1,6 +1,6 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
-import { ApiModelsDeleteModel, ApiModelsGetList, ApiModelsGetModel, ApiModelsGetPublicList, ApiModelsGetUser, ApiModelsNewModel, ApiModelsPublishModel, ApiModelsRenameModel, ApiModelsSaveModel, ApiModelsUnpublishModel, decodeQuery, errorResponse, okResponse, ApiModelsScratchModel, ApiModelsUnscratchModel, ApiModelsGetUserDomain, ApiModelsGetPublicDomainList, ApiModelsGetUserModule, ApiModelsGetPreview, ApiModelsGetPreviewImg, ApiModelsDeleteScratchModuleModels, setProcessingRoute, setProcessingWithoutResultRoute, ApiModelsGetDotGraph, ApiModelsGetArtifact, ApiModelsGetBinaryArtifact, ApiModelsGetPublicModuleList, ApiModelsHandoverModel, ApiModelsSetGroupOfModel } from '../api/api'
+import { ApiModelsDeleteModel, ApiModelsGetList, ApiModelsGetModel, ApiModelsGetPublicList, ApiModelsGetUser, ApiModelsNewModel, ApiModelsPublishModel, ApiModelsRenameModel, ApiModelsSaveModel, ApiModelsUnpublishModel, decodeQuery, errorResponse, okResponse, ApiModelsScratchModel, ApiModelsUnscratchModel, ApiModelsGetUserDomain, ApiModelsGetPublicDomainList, ApiModelsGetUserModule, ApiModelsGetPreview, ApiModelsGetPreviewImg, ApiModelsDeleteScratchModuleModels, setProcessingRoute, setProcessingWithoutResultRoute, ApiModelsGetDotGraph, ApiModelsGetArtifact, ApiModelsGetBinaryArtifact, ApiModelsGetPublicModuleList, ApiModelsHandoverModel, ApiModelsSetGroupOfModel, ApiModelsNewModelWithContent } from '../api/api'
 import { sessionUserId } from '../authentication/utils'
 import { dotGraph, getArtifactContent, getBinaryArtifactContent } from '../codegen/codegen'
 import { getPreviewImage, makePreviewPromise } from '../codegen/preview'
@@ -60,6 +60,15 @@ export function getModelsAPI(modelsDb: ModelsDb, passwordDb: PasswordUserDb): ex
             return modelsDb.newModel(modelName, domain, ownerName, sessionUserId(req), group)
         }, modelId => {return {modelId}}
         , "Failed to create new model")
+
+    setProcessingWithoutResultRoute(router, ApiModelsNewModelWithContent, req=> new Promise<void>((resolve, reject) => {
+        // POST request
+        const {modelName, modelContent, domain} = req.body as {modelName: string, modelContent: string, domain: string}
+        passwordDb.getUser(sessionUserId(req), sessionUserId(req)).then(user => {
+            modelsDb.newModelWithContent(modelName, modelContent, domain, user.name, sessionUserId(req), user.group).then(modelId => resolve())
+        })
+    }), "Failed to create new model")
+
 
     setProcessingWithoutResultRoute(router, ApiModelsRenameModel, req=>{
             const {modelId, modelName} = decodeQuery(req.query) as {modelId: string, modelName: string}

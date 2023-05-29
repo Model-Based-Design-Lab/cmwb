@@ -54,6 +54,11 @@ export abstract class ModelsDb {
 		const modelId = await this.addModel(modelName, ModelTemplates.get(domain), domain, typeScratch, userId, ownerName, group, userId)
 		return modelId
 	}
+	public async newModelWithContent(modelName: string, modelContent: string, domain: string, ownerName: string, userId: string, group: string): Promise<string> {
+		if (!this.validateModelName(modelName)) throw new Error("Invalid model name.")
+		const modelId = await this.addModel(modelName, modelContent, domain, typeScratch, userId, ownerName, group, userId)
+		return modelId
+	}
 
 	public async getPublicModels(userId: string): Promise<IExternalCompModModel[]>
 	{
@@ -593,6 +598,5 @@ export class ModelsDbStub extends ModelsDb {
 		}
 		throw new Error(`A model with ID '${modelId}' does not exist.`)
 	}
-
 
 }

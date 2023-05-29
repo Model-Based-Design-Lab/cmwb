@@ -24,6 +24,8 @@ export const ApiModelsScratchModel = '/api/models/scratchModel'
 export const ApiModelsUnscratchModel = '/api/models/unscratchModel'
 // create a new model; query: modelName, domain, ownerName, group
 export const ApiModelsNewModel = '/api/models/newModel'
+// create a new model; query: modelName, modelContent, domain
+export const ApiModelsNewModelWithContent = '/api/models/newModelWithContent'
 // rename model; query: modelId,  modelName 
 export const ApiModelsRenameModel = '/api/models/renameModel'
 export const ApiModelsSetGroupOfModel = '/api/models/setGroupOfModel'
