@@ -79,7 +79,11 @@ export default class Profile extends React.Component<Props,State> {
     } 
     
     private listOfGroups(l: string[]) {
-        return l.join(", ")
+        if (l !== undefined) {
+            return l.join(", ")
+        } else {
+            return ""
+        }
     }
     
     public componentDidMount(): void {

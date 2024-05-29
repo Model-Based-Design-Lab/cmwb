@@ -18,7 +18,11 @@ export class SimpleDropDown extends React.Component<Props, State> {
 
     constructor(props: any) {
         super(props)
-        this.state = { selectedItem: props.items[0] }
+        if (props.items !== undefined) {
+            this.state = { selectedItem: props.items[0] }
+        } else {
+            this.state = { selectedItem: "" }
+        }
     }
 
     private select(v: any){

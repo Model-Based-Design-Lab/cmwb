@@ -60,7 +60,11 @@ export default class AdminEditUser extends React.Component<Props,State> {
 
 
     private listOfGroups(l: string[]) {
-        return l.join(", ")
+        if (l !== undefined) {
+            return l.join(", ")
+        } else {
+            return ""
+        }
     }
      
     private setAccessibleGroups(groups: string[]) {
