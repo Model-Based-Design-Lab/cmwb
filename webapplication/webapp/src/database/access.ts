@@ -1,3 +1,4 @@
+import { RunningInLocalMode } from "../config/config";
 import { ICompModModel } from "./modelsschema";
 import { PasswordUserDb } from "./passwdb";
 
@@ -27,6 +28,6 @@ export async function AdminAccessAsyncBarrier(passwordUserDb: PasswordUserDb, se
 }
 
 export function LocalModeBarrier() {
-    if (! global.localMode) throw new Error("Server is not in local mode.")
+    if (! RunningInLocalMode) throw new Error("Server is not in local mode.")
 }
 

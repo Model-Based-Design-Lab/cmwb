@@ -12,7 +12,7 @@ import { GeneralGroup } from '../config/config'
 
 
 // setup the authentication to the express server using the provided database to access user information
-export function setupPassport(server: Express, passwordDb: PasswordUserDb, localMode: boolean) {
+export function setupPassport(server: Express, passwordDb: PasswordUserDb, localMode: boolean, onLogin: (user: IExternalPasswordUser) => void) {
     
     const localLoginStrategy = new LocalStrategy.Strategy(
         {
@@ -29,6 +29,8 @@ export function setupPassport(server: Express, passwordDb: PasswordUserDb, local
                     // get the full user from the database
                     passwordDb.getUserByEmail(email)
                     .then( user => {
+                        // execute callback
+                        onLogin(user)
                         // return the user to the password middleware
                         return done(null, user)
                     })

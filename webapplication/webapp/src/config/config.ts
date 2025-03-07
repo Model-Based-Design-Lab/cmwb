@@ -1,5 +1,13 @@
 import { DomSDF, DomFSA, DomDTMC, DomLTL, DomRegEx, DomMPM, ModuleDTMC, ModuleFSA, ModuleSDF } from './model'
 
+
+// the following is used to distinguish between running
+// in local mode (Docker container) or on the server
+// do not change, it is replaced by =true in the Dockerfile image build
+
+export const RunningInLocalMode = false
+
+
 // on the server port should be 7000
 // export const PORT = 3000
 export const PORT = 7000

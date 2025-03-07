@@ -6,6 +6,7 @@ import 'w3-css/w3.css'
 import { Container, SSRProvider } from 'react-bootstrap'
 import Navigation from '../components/Navigation/Navigation'
 import { Footer } from '../components/Footer/Footer'
+import { RunningInLocalMode } from '../config/config'
 
 class MyApp extends App {
 
@@ -23,7 +24,7 @@ class MyApp extends App {
         if (ctx.req && ctx.req.session && ctx.req.session.quiz) {
             pageProps.quiz = ctx.req.session.quiz
         }
-        pageProps.localMode = global.localMode
+        pageProps.localMode = RunningInLocalMode
         return { pageProps }
     }
 

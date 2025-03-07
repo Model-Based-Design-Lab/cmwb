@@ -1,5 +1,5 @@
 import express from 'express'
-import { BASE_PATH, BASE_PATH_RESTRICTED, DEBUG_PORT, PORT } from "./config/config"
+import { BASE_PATH, BASE_PATH_RESTRICTED, DEBUG_PORT, PORT, RunningInLocalMode } from "./config/config"
 import http from 'http'
 import next from 'next'
 import session from 'express-session'
@@ -18,6 +18,7 @@ import { getModelsAPI } from './api/models'
 import { getAnalysisAPI } from './api/analysis/analysis'
 import { getPublicStaticFilesAPI, getRestrictedStaticFilesAPI } from './api/staticfiles'
 import { containerMongoDbHost, mongoDbHost } from './config/serverconfig'
+import { IExternalPasswordUser } from './database/passwdbinterface'
 
 // check if we want to run in development or production mode
 var dev: boolean = true
@@ -30,7 +31,6 @@ if (process.argv.includes("production")) {
 
 var port = PORT
 var debugMode = false
-var localMode = false
 
 if (process.argv.includes("debug")) {
 	console.log('\x1b[31m', 'Running in Debug mode.', '\x1b[0m')
@@ -38,12 +38,9 @@ if (process.argv.includes("debug")) {
     debugMode = true
 }
 
-if (process.argv.includes("local")) {
+if (RunningInLocalMode) {
 	console.log('\x1b[31m', 'Running in Local mode.', '\x1b[0m')
-    localMode = true
 }
-
-global.localMode = localMode
 
 // create the Next.js app
 const app = next({
@@ -88,7 +85,7 @@ app.prepare().then(async () => {
     // make a log
     logger.info("Computational Modeling Workbench Application Server Starting")
 
-    const dbHost = localMode?containerMongoDbHost:mongoDbHost
+    const dbHost = RunningInLocalMode?containerMongoDbHost:mongoDbHost
 
     // connect to the models database
     logger.info(`Connecting to database host: ${dbHost}`)
@@ -108,7 +105,9 @@ app.prepare().then(async () => {
     logger.info("Connected to user database")
 
     // set up the authentication stuff
-    setupPassport(server, passwordDb, localMode)
+    setupPassport(server, passwordDb, RunningInLocalMode, (user: IExternalPasswordUser) => {
+        modelsDb.initForUser(user.id, user.name)
+    })
     logger.info("Passport set up")
 
     // set the API access
@@ -126,7 +125,7 @@ app.prepare().then(async () => {
     // handling everything else with Next.js
     server.get("*", handle)
 
-    if (! localMode) {
+    if (! RunningInLocalMode) {
         // setup and verify SMTP
         setupSMTP(logger)
     }

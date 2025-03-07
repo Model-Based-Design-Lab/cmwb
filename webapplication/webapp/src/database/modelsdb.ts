@@ -2,11 +2,12 @@ import mongoose from 'mongoose'
 import { modelTypes, IExternalCompModModel, typeScratch, typePublic, typeUser } from './modelsdbinterface'
 import { getCompModModel, ICompModModel, TCompModModel } from './modelsschema'
 import { Logger } from 'winston'
-import { ValidModelNameRegEx } from '../config/config'
+import { RunningInLocalMode, ValidModelNameRegEx } from '../config/config'
 import { DomainModules, domains, DomDTMC, DomFSA, DomLTL, DomMPM, DomSDF, ModelTemplates } from '../config/model'
 import { dbHandler, dbHandlerWithResult, getMongooseConnection, TErrorCallback, TVoidResultCallback } from './mongoose'
 import { CheckReadAccess, ReadAccessBarrier, WriteAccessBarrier } from './access'
 import { dbName } from '../config/serverconfig'
+import { ExampleModels } from './example-models/example-models'
 
 var CompModModel: TCompModModel
 
@@ -19,9 +20,14 @@ export abstract class ModelsDb {
 		this.logger = logger
 	}
 
+	// connect to the database
 	public abstract connect(): Promise<boolean>
+	// initialize database with example models
+	public abstract initForUser(userId: string, userName: string): Promise<boolean>
 	// get all models accessible to the user
 	public abstract getAll(userId: string): Promise<IExternalCompModModel[]>
+	// get all models with a particular name, accessible to the user
+	public abstract getModelsByName(name: string, userId: string): Promise<IExternalCompModModel[]>
 	// get all models accessible to the user from a particular group
 	public abstract getAllGroup(userId: string, group: string): Promise<IExternalCompModModel[]>
 	// get a particular model, for a particular user, checking access right
@@ -133,6 +139,18 @@ export class ModelsMongooseDb extends ModelsDb {
 		})
 	}
 
+	async initForUser(userId: string, userName: string): Promise<boolean> {
+		if (RunningInLocalMode) {
+			ExampleModels.forEach(async (model: any) => {
+				if ((await this.getModelsByName(model.name, userId)).length ==0) {
+					await this.addModel(model.name, model.content, model.domain, model.type, userId, userName, model.group, userId)
+				}
+			})
+		}
+		return true
+	}
+
+
 	public async getAll(userId: string): Promise<IExternalCompModModel[]> {
 		return new Promise((resolve, reject) => {
 			CompModModel.find().exec(dbHandlerWithResult('Error in getAll', result => 
@@ -140,6 +158,15 @@ export class ModelsMongooseDb extends ModelsDb {
 			reject))
 		})
 	}
+
+	public async getModelsByName(name: string, userId: string): Promise<IExternalCompModModel[]> {
+		return new Promise((resolve, reject) => {
+			CompModModel.find({name: name}).exec(dbHandlerWithResult('Error in getModelsByName', result =>
+			resolve(result.filter((m: ICompModModel) => CheckReadAccess(m, userId))),
+			reject))
+		})
+	}
+
 
 	public async getAllGroup(userId: string, group: string): Promise<IExternalCompModModel[]> {
 		return new Promise((resolve, reject) => {
@@ -474,8 +501,16 @@ export class ModelsDbStub extends ModelsDb {
 		return true
 	}
 
+	async initForUser(userId: string, userName: string) {
+		return true
+	}
+
 	public async getAll(userId: string) {
 		return testModels
+	}
+
+	public async getModelsByName(name: string, userId: string) {
+		return testModels.filter(m => m.name == name)
 	}
 
 	public async getAllGroup(userId: string) {
