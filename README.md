@@ -24,12 +24,12 @@ git submodule update --init
 The following will build and run the CMWB using [docker](docker.com).
 
 ``` shell
-docker build . -f .\wslsp.Dockerfile -t wslsp
+docker build . -f .\wslsp.Dockerfile -t wslsp-cmwb
 docker build . -t cmwb
 docker compose up
 ```
 
-After building images and starting is complete, the CMWB can be started from <localhost:7000/cmwb>
+After building images and starting is complete, the CMWB can be started from <localhost:3000/cmwb>
 
 ### Windows Path Length Limit Issue
 

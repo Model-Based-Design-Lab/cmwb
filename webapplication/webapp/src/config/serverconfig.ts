@@ -7,7 +7,7 @@ export const passwordDbName = 'cmwb_users2'
 // collection name is 'passwordusermodels'
 // collection name is 'accessgroupmodels' (?)
 export const mongoDbHost = 'mongodb://localhost:27017'
-export const containerMongoDbHost = 'mongodb://mongodb:27017'
+export const containerMongoDbHost = 'mongodb://mongodb-cmwb:27017'
 
 
 // codegen settings

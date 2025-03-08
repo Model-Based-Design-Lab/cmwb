@@ -58,6 +58,8 @@ export function setupPassport(server: Express, passwordDb: PasswordUserDb, local
                     // get the full user from the database
                     passwordDb.getUserByEmail(email)
                     .then( user => {
+                        // execute callback
+                        onLogin(user)
                         // return the user to the password middleware
                         return done(null, user)
                     })
@@ -76,16 +78,21 @@ export function setupPassport(server: Express, passwordDb: PasswordUserDb, local
             passwordField: 'password'
         },
         function(_email, _password, done) {
-            // ask database to validate password
-            return done(null, {
+            const user = {
                 id: "",
                 name: "guest",
                 email: "",
                 isGuest: true,
+                isAdmin: false,
                 group: GeneralGroup,
                 accessibleGroups: [GeneralGroup],
                 createdAt: new Date()
-            })
+            }
+            // execute callback
+            onLogin(user)
+
+            // ask database to validate password
+            return done(null, user)
         }
     )
 

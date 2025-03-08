@@ -3,7 +3,7 @@ import { DomSDF, DomFSA, DomDTMC, DomLTL, DomRegEx, DomMPM, ModuleDTMC, ModuleFS
 
 // the following is used to distinguish between running
 // in local mode (Docker container) or on the server
-// do not change, it is replaced by =true in the Dockerfile image build
+// do not change, it is replaced by = true in the Dockerfile image build
 
 export const RunningInLocalMode = false
 

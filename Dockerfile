@@ -57,11 +57,11 @@ COPY ./webapplication/webapp/src ./src
 COPY ./webapplication/webapp/static ./static
 COPY ./webapplication/webapp/exercises ./exercises
 
-RUN npm run build
-RUN npm run nextbuild
-
 # adapt the code for the docker version
 RUN sed -i 's/RunningInLocalMode = false/RunningInLocalMode = true/g' ./src/config/config.ts
+
+RUN npm run build
+RUN npm run nextbuild
 
 
 RUN mkdir -p /usr/cmwb/webapp/codegenoutput/previewcache
