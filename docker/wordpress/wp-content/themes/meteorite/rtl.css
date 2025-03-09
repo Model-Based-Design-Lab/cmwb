@@ -1,0 +1,529 @@
+/*
+Theme Name: Meteorite
+
+https://codex.wordpress.org/Right-to-Left_Language_Support
+
+*/
+
+/* Reset */
+
+body {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+
+th {
+	text-align: right;
+}
+
+/* Accessibility */
+
+.screen-reader-text:focus {
+	left: auto;
+	right: 5px;
+}
+
+/* Typography */
+
+textarea {
+	padding-right: 3px;
+}
+
+ul ul,
+ol ol {
+	padding-left: 0;
+	padding-right: 35px;
+}
+
+/* Forms */
+
+input[type="radio"],
+input[type="checkbox"] {
+	margin-left: 0.5em;
+	margin-right: 0;
+}
+
+.searchsubmit {
+	border-right: none;
+	border-radius: 0;
+}
+
+.searchsubmit:focus, 
+.searchsubmit:hover {
+	border-left: 1px solid #ddd;
+}
+
+.searchform .search-field input {
+	border-radius: 0;
+	border-left: none;
+	border-right: 1px solid #ddd;
+}
+
+/* Other */
+
+.permalink {
+	padding-left: 0;
+	padding-right: 3px;
+}
+
+.widget_recent_entries ul li::before, 
+.widget_recent_comments ul li::before, 
+.widget_archive ul li::before, 
+.widget_categories ul li::before, 
+.widget_meta ul li::before, 
+.widget_pages ul li::before, 
+.widget_nav_menu div ul li::before, 
+.widget_product_categories ul li::before {
+	float: right;
+	content: "\f104";
+	padding: 0 1px 0 8px;
+}
+
+/* Header */
+
+.topbar .contact::before, 
+.topbar .tel::before, 
+.topbar .email::before {
+	padding: 0 0 0 10px;
+}
+
+.topbar .topbar-nav ul {
+	text-align: left;
+}
+
+.topbar .topbar-nav-left ul li:first-child a {
+	padding-left: 15px;
+}
+
+.topbar .topbar-nav-left ul li a:last-child {
+	border-right: 1px solid rgba(177, 177, 177, 0.5);
+}
+
+#main-nav #primary-menu {
+	float: left;
+}
+
+#main-nav ul ul li {
+	text-align: right;
+}
+
+#main-nav .mega-menu > .sub-menu > li {
+	float: right;
+}
+
+.navicon {
+	float: left;
+}
+
+.btn-menu {
+	float: left;
+	text-align: left;
+}
+
+.btn-submenu {
+	right: auto;
+	left: 20px;
+}
+
+#search-fullscreen .overlay-search .s {
+	text-align: right;
+}
+
+#search-fullscreen .overlay-search .overlay-search-close {
+	left: 75px;
+	right: auto;
+}
+
+#search-under-header .overlay-search {
+	left: -15px;
+	right: auto;
+}
+
+#search-under-header .overlay-search::before {
+	left: 12px;
+	right: auto;
+}
+
+.parallax-text .header-cta-one {
+	margin-left: 10px;
+	margin-right: 0;
+}
+
+.parallax-text {
+	left: auto;
+	right: 50%;
+	-webkit-transform: translate(50%,-50%);
+	-ms-transofrorm: translate(50%,-50%);
+	transform: translate(50%,-50%);
+}
+
+.titlebar .titlebar-heading {
+	float: right;
+}
+
+.titlebar .meteorite-breadcrumb {
+	left: 15px;
+	right: auto;
+}
+
+.titlebar .meteorite-breadcrumb ul li {
+	padding-left: 10px;
+	padding-right: 0;
+}
+
+.titlebar .meteorite-breadcrumb ul li::after {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+/* Content */
+
+.read-more {
+	text-align: left;
+}
+
+.read-more a::after {
+	padding-left: 0;
+	padding-right: 5px;
+}
+
+.post-type-img-left .read-more,
+.post-type-grid-2-col .read-more,
+.post-type-fullwidth-grid {
+	text-align: right;
+}
+
+.post-type-img-left:not(.format-image) .entry-thumb {
+	float: right;
+	padding-left: 25px;
+	padding-right: 0;
+}
+
+.post-type-img-left.format-standard .post-inner,
+.post-type-img-left.format-video .post-inner,
+.post-type-img-left.format-audio .post-inner,
+.post-type-img-left.format-gallery .post-inner {
+	float: right;
+}
+
+.nav-links-extended .nav-previous,
+.nav-links .nav-previous {
+	float: right;
+}
+
+.nav-links-extended .nav-next,
+.nav-links .nav-next {
+	float: left;
+}
+
+.posts-navigation-arrows .prev-link-arrow {
+	float: right;
+}
+
+.posts-navigation-arrows .prev-link-arrow i::before {
+	content: "\f105";
+}
+
+.posts-navigation-arrows .next-link-arrow {
+	float: left;
+}
+
+.posts-navigation-arrows .next-link-arrow i::before {
+	content: "\f104";
+}
+
+.nav-links-extended .prev-link {
+	float: right;
+	padding-left: 20px;
+	padding-right: 0;
+	text-align: right;
+}
+
+.nav-links-extended .next-link {
+	float: left;
+	padding-left: 0;
+	padding-right: 20px;
+	text-align: left;
+}
+
+.nav-links-extended .prev-link img {
+	float: right;
+	margin-left: 15px;
+	margin-right: 0;
+}
+.nav-links-extended .next-link img {
+	float: left;
+	margin-left: 0;
+	margin-right: 15px;
+}
+
+.pagination .next::after {
+	padding-left: 0;
+	padding-right: 5px;
+}
+
+.nav-links .nav-previous a::before {
+	padding-left: 5px;
+	padding-right: 0;
+}
+
+.nav-links .nav-next a::after {
+	padding-left: 0;
+	padding-right: 5px;
+}
+
+.about-the-author .author-avatar {
+	margin-left: 15px;
+	margin-right: 0;
+}
+
+.about-the-author .author-avatar,
+.about-the-author .author-description {
+	float: right;
+}
+
+.owl-carousel {
+	direction: ltr;
+}
+
+.owl-carousel .owl-item {
+	direction: rtl;
+}
+
+.project-layout-half .single-thumb {
+	float: right;
+	padding-left: 25px;
+	padding-right: 0;
+}
+
+.project-layout-half .project-has-details,
+.project-layout-half .single-content {
+	float: right;
+}
+
+.project-has-details .single-content {
+	float: right;
+}
+
+.project-has-details .project-details {
+	float: left;
+	padding-left: 0;
+	padding-right: 20px;
+}
+
+.project-has-details .project-details .project-details-heading {
+	float: right;
+	padding-left: 10px;
+	padding-right: 0;
+}
+
+.project-has-details .project-details .project-details-desc {
+	float: right;
+}
+
+.post-meta:before,
+.post-meta:after {
+	content: "";
+	display: table;
+	table-layout: fixed;
+}
+.post-meta:after {
+	clear: both;
+}
+
+.post-meta span {
+	float: right;
+}
+
+.post-meta span::before {
+	float: right;
+	line-height: inherit;
+	padding: 0 0 0 5px !important;
+}
+
+.post-meta span:first-child {
+	margin-right: 0;
+}
+
+.post-meta span::before {
+	padding: 0 0 0 10px;
+}
+
+#secondary {
+	float: left;
+}
+
+#primary,
+#tertiary {
+	float: right;
+}
+
+/* Comments */
+
+.comment-author .fn, 
+.comment-metadata {
+	margin-left: 0;
+	margin-right: 80px;
+}
+
+.comments-area ol.children {
+	padding-left: 0;
+	padding-right: 35px;
+}
+
+/* Footer */
+
+.site-footer .menu-fallback {
+	text-align: left;
+}
+
+#footer-nav {
+	float: left;
+}
+
+.site-info {
+	float: right;
+}
+
+.footer-nav-wrapper {
+	float: left;
+}
+
+#footer-nav li:last-child {
+	padding-left: 0;
+	padding-right: 15px;
+}
+
+/* Widgets */
+
+.meteorite-cta.inline-style {
+	text-align: right;
+}
+
+.meteorite-text-with-icon .type-icon-left .title,
+.meteorite-text-with-icon .type-icon-left .description,
+.meteorite-text-with-icon .type-hexagon-left .title,
+.meteorite-text-with-icon .type-hexagon-left .description {
+	text-align: right;
+}
+
+.skill-bar-a .skill-perc {
+	padding-left: 5px;
+	padding-right: 0;
+}
+
+.meteorite-skill .skill-name {
+	left: auto;
+	right: 0;
+}
+
+.skill-perc {
+	text-align: left;
+}
+
+.skill-bar span {
+	text-align: right;
+}
+
+.widget-area .meteorite-social-media {
+	text-align: right;
+}
+
+.meteorite-text-with-icon .type-icon-left .info {
+	float: right;
+}
+
+.meteorite-text-with-icon .type-hexagon-left .svg-container.text-with-icon-svg {
+	float: right;
+	left: auto;
+	margin: 0 0 0 20px;
+	right: 0;
+}
+
+.meteorite-text-with-icon .type-hexagon-left .info {
+	float: right;
+}
+
+.meteorite-text-with-icon .type-hexagon .svg-container.text-with-icon-svg {
+	left: auto;
+	margin: 0 0 25px 0;
+	width: auto;
+}
+
+.meteorite-text-with-icon .type-icon-left .icon {
+	float: right;
+	margin: 0 0 0 20px;
+}
+
+.meteorite-projects .project-item {
+	float: right;
+}
+
+.meteorite-post-tabs-widget .news-list li .image {
+	float: right;
+	margin-left: 13px;
+	margin-right: 0;
+}
+
+.meteorite-post-tabs-widget .post-holder {
+	float: right;
+	text-align: right;
+}
+
+.meteorite-testimonials .whisper .fa-quote-left {
+	padding-left: 8px;
+	padding-right: 0;
+}
+
+.meteorite-testimonials .whisper .fa-quote-right {
+	padding-left: 0;
+	padding-right: 8px;
+}
+
+.meteorite-contact-info.block span {
+	margin-left: 15px;
+	margin-right: 0;
+}
+
+.meteorite-list-with-icons .fa-li {
+	padding-left: 10px;
+	padding-right: 0;
+}
+
+/* WooCommerce */
+
+.wc-image-wrapper {
+	float: right;
+}
+
+.product-item-price-box .save-text {
+	float: left;
+}
+
+/* Media Queries */
+
+@media only screen and (max-width: 991px) {
+	.topbar .claim-field-right,
+	.topbar .contact-field-right,
+	.topbar .social-nav-right {
+		text-align: right;
+	}
+	#footer-nav {
+		float: right;
+	}
+	.titlebar .titlebar-heading {
+		float: none;
+	}
+	#secondary,
+	#primary,
+	#tertiary {
+		float: none;
+	}
+}
+
+@media only screen and (min-width: 769px) {
+	.post-type-fullwidth-grid,
+	.post-type-grid-2-col {
+		float: right;
+	}
+}

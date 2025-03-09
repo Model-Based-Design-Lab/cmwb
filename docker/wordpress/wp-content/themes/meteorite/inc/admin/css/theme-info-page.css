@@ -1,0 +1,314 @@
+.clearfix:before,
+.clearfix:after,
+.meteorite-theme-info-row:before,
+.meteorite-theme-info-row:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after,
+.meteorite-theme-info-row:after {
+  clear: both;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.meteorite-theme-info-wrapper hr {
+	margin: 30px 0;
+}
+
+.meteorite-theme-info-wrapper h1,
+.meteorite-theme-info-wrapper h2,
+.meteorite-theme-info-wrapper h3,
+.meteorite-theme-info-wrapper h4,
+.meteorite-theme-info-wrapper h5,
+.meteorite-theme-info-wrapper h6,
+.meteorite-theme-info-wrapper p {
+	color: #455a64;
+	line-height: 1.5em;
+	margin: 5px 0 15px 0;
+}
+
+.meteorite-theme-info-wrapper h1 {
+	font-size: 30px;
+}
+
+.meteorite-theme-info-wrapper h2 {
+	font-size: 25px;
+}
+
+.meteorite-theme-info-wrapper h3 {
+	font-size: 20px;
+}
+
+.meteorite-theme-info-wrapper p {
+	font-size: 16px;
+}
+
+.meteorite-theme-info-wrapper a {
+	text-decoration: none;
+}
+
+.meteorite-theme-info-wrapper .button {
+	margin-top: 15px;
+}
+
+.meteorite-theme-info-wrapper {
+	padding-right: 20px;
+	width: 100%;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-inner {
+	margin: 50px auto;
+	max-width: 1400px;
+	width: 100%;
+}
+
+.meteorite-theme-info-wrapper .meteorite-equal-height {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+
+.meteorite-theme-info-wrapper .meteorite-equal-height > div {
+	display: table-cell;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1 0 auto;
+	-ms-flex: 1 0 auto;
+	flex: 1 0 auto;
+}
+
+.meteorite-theme-info-wrapper .meteorite-equal-height > div .meteorite-theme-info-card {
+	height: 100%;
+}
+
+.meteorite-theme-info-wrapper .meteorite-tab-nav .dashicons {
+	height: auto;
+	padding-right: 10px;
+	vertical-align: middle;
+	width: auto;
+}
+
+.meteorite-theme-info-wrapper .dashicons.dashicons-external {
+	font-size: 90%;
+	height: auto;
+	padding-bottom: 2px;
+	padding-left: 5px;
+	padding-right: 0;
+	vertical-align: middle;
+	width: auto;
+}
+
+.meteorite-theme-info-wrapper .meteorite-tab {
+	display: none;
+}
+
+.meteorite-theme-info-wrapper .meteorite-tab.show {
+	display: block;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-card {
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.1);
+	color: #455a64;
+	font-size: 16px;
+	padding: 25px;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-row {
+	margin-bottom: 35px;
+	margin-left: -15px;
+	margin-right: -15px;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-col-6,
+.meteorite-theme-info-wrapper .meteorite-theme-info-col-4,
+.meteorite-theme-info-wrapper .meteorite-theme-info-col-3 {
+	padding-left: 15px;
+	padding-right: 15px;
+	float: left;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-col-12 {
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 100%;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-col-6 {
+	width: 50%;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-col-4 {
+	width: 33.3%;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-col-3 {
+	width: 25%;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-header {
+	background-color: #1c364f;
+	background-image: url('../../../img/meteorite-graphic-small.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	border-radius: 5px;
+	box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.1);
+	padding: 25px;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-heading {
+	color: #fff !important;
+	margin-bottom: 0;
+}
+
+.meteorite-theme-info-wrapper .meteorite-version {
+	color: #f2f2f2 !important;
+	font-size: 16px;
+	font-weight: 300;
+	margin-top: 0;
+}
+
+.meteorite-theme-info-wrapper .meteorite-tab-nav {
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.1);
+	margin-bottom: 50px;
+	margin-top: 50px;
+	padding: 0 25px;
+	text-align: center;
+}
+
+.meteorite-theme-info-wrapper .meteorite-tab-nav ul {
+	display: table;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	margin: 0;
+	width: 100%;
+}
+
+.meteorite-theme-info-wrapper .meteorite-tab-nav li {
+	display: table-cell;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1 0 auto;
+	-ms-flex: 1 0 auto;
+	flex: 1 0 auto;
+	margin: 0;
+}
+
+.meteorite-theme-info-wrapper .meteorite-tab-nav a {
+	color: #455a64;
+	font-size: 16px;
+	line-height: 70px;
+	padding: 25px 0;
+	position: relative;
+	text-decoration: none;
+}
+
+.meteorite-theme-info-wrapper .meteorite-tab-nav a::after {
+	background-color: #337ab7;
+	border-radius: 3px;
+	bottom: 0;
+	content: "";
+	height: 4px;
+	left: 0;
+	position: absolute;
+	-webkit-transform: scaleX(0);
+	-ms-transform: scaleX(0);
+	transform: scaleX(0);
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+	width: 100%;
+}
+
+.meteorite-theme-info-wrapper .meteorite-tab-nav a.active::after,
+.meteorite-theme-info-wrapper .meteorite-tab-nav a:hover::after {
+	-webkit-transform: scaleX(1);
+	-ms-transform: scaleX(1);
+	transform: scaleX(1);
+}
+
+.meteorite-theme-info-wrapper .welcome-user {
+	font-size: 25px;
+}
+
+.meteorite-theme-info-wrapper .welcome-user span {
+	font-style: italic;
+}
+
+.meteorite-theme-info-wrapper .rec-plugins-card,
+.meteorite-theme-info-wrapper .demo-import-card,
+.meteorite-theme-info-wrapper .customize-card {
+	background-color: #dff0ff;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-changelog .changelog-content {
+	margin-bottom: 25px;
+	max-height: 400px;
+	overflow: auto;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-changelog .changelog-content h3 {
+	font-size: 18px;
+	margin-top: 30px;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-changelog .changelog-content ul {
+	list-style: disc inside none;
+	margin-left: 15px;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-changelog .changelog-content p,
+.meteorite-theme-info-wrapper .meteorite-theme-info-changelog .changelog-content li {
+	font-size: 14px;
+	margin: 5px 0 0 0;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-changelog .release-date {
+	font-style: italic;
+}
+
+.meteorite-theme-info-wrapper .meteorite-theme-info-changelog .changelog-notice {
+	font-weight: bold;
+}
+
+.meteorite-theme-info-wrapper .plugin-installed {
+	color: #4CAF50;
+	font-weight: bold;
+}
+
+.meteorite-theme-info-wrapper .demo-import .import-notice {
+	background-color: #F44336;
+	color: #fff;
+	font-size: 14px;
+	padding: 5px;
+}
+
+.meteorite-theme-info-wrapper .support-forum,
+.meteorite-theme-info-wrapper .support-docs {
+	text-align: center;
+}
+
+.meteorite-theme-info-wrapper .meteorite-icon-lg {
+	display: block;
+	font-size: 40px;
+	height: 40px;
+	margin-bottom: 25px;
+	width: 100%;
+}
+
+.meteorite-theme-info-wrapper .rate-meteorite {
+	background-color: #feffcb;
+}
+
+.meteorite-theme-info-wrapper .meteorite-like {
+	font-size: 33px;
+	height: 33px;
+	width: 33px;
+}
