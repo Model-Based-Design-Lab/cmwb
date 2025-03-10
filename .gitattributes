@@ -1,2 +1,2 @@
-docker/db_data/* eol=lf
-docker/wordpress/* eol=lf
+docker/db_data/* -text
+docker/wordpress/* -text
