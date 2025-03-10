@@ -29,7 +29,7 @@ docker build . -t cmwb
 docker compose up
 ```
 
-After building images and starting is complete, the CMWB can be started from <localhost:3000/cmwb>
+After building images and starting is complete, the CMWB can be started from <http://localhost>
 
 ### Windows Path Length Limit Issue
 
