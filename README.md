@@ -42,3 +42,9 @@ Replace the build command for the `cmwb` container with the following command:
   ```
 
 where `D:\long-path` is replaced by the full path to this repository.
+
+## Editing the Documentation
+
+``` sh
+docker-compose -f docker-compose-documentation.yml up
+```
