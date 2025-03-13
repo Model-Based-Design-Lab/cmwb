@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ruleset name="MathJax-LaTeX">
+	<rule ref="WordPress-Extra" />
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+	<rule ref="WordPress">
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
+	</rule>
+
+	<arg name="colors" />
+
+	<arg value="ps" />
+	<arg name="basepath" value="."/>
+	<arg name="parallel" value="50"/>
+	<arg name="extensions" value="php"/>
+	<file>.</file>
+
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+</ruleset>
