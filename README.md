@@ -24,16 +24,14 @@ git submodule update --init
 The following will build and run the CMWB using [docker](docker.com).
 
 ``` shell
-docker build . -f .\wslsp.Dockerfile -t wslsp-cmwb
-docker build . -t cmwb
-docker compose up
+docker-compose -f docker/docker-compose.yml up
 ```
 
 After building images and starting is complete, the CMWB can be started from <http://localhost>
 
 ### Windows Path Length Limit Issue
 
-In case you have hit the path length limit of 260 characters in Windows, there following should solve the issue. (See also [GitHub discussion](https://github.com/moby/buildkit/issues/1366)).
+In case you have hit the path length limit of 260 characters in Windows, the following should solve the issue. (See also [GitHub discussion](https://github.com/moby/buildkit/issues/1366)).
 
 Replace the build command for the `cmwb` container with the following command:
 
@@ -46,5 +44,5 @@ where `D:\long-path` is replaced by the full path to this repository.
 ## Editing the Documentation
 
 ``` sh
-docker-compose -f docker-compose-documentation.yml up
+docker-compose -f docker/docker-compose-documentation.yml up
 ```

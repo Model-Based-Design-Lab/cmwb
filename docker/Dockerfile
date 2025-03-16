@@ -1,10 +1,11 @@
+# note tired to update to 24.04, but it seems that the gradle build is not working anymore, todo: fix
 FROM ubuntu:20.04
 
 WORKDIR /usr
 ENV TZ=Europe/Amsterdam
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update
-RUN apt-get -y install default-jdk dos2unix graphviz python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv libcairo2-dev curl
+RUN apt-get -y install default-jdk dos2unix graphviz python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv libcairo2-dev curl git
 
 # Install node v16
 RUN curl -s https://deb.nodesource.com/setup_16.x | bash
@@ -56,6 +57,22 @@ RUN npm install
 COPY ./webapplication/webapp/src ./src
 COPY ./webapplication/webapp/static ./static
 COPY ./webapplication/webapp/exercises ./exercises
+
+# record commit hash and date
+COPY ./.git /usr/cmwb/
+RUN git rev-parse main > commithash.txt && \
+    NOW=$(date +"%m-%d-%Y %T") && \
+    COMMITHASH=$(tr -d '\n' < commithash.txt) && \
+    BUILDJSON=./src/config/distconfig/build.json && \
+    echo "{" > $BUILDJSON && \
+    echo "  \"date\": \"$NOW\"," >> $BUILDJSON && \
+    echo -n "  \"commit\": \"" >> $BUILDJSON && \
+    echo -n "$COMMITHASH" >> $BUILDJSON && \
+    echo "\"" >> $BUILDJSON && \
+    echo "}" >> $BUILDJSON && \
+    rm commithash.txt && \
+    rm -rf ./.git
+
 
 # adapt the code for the docker version
 RUN sed -i 's/RunningInLocalMode = false/RunningInLocalMode = true/g' ./src/config/config.ts
