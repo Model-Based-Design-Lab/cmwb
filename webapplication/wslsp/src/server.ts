@@ -5,7 +5,7 @@ import * as morgan from 'morgan';
 import { logger, stream } from './config/winston';
 import * as appRoot from 'app-root-path'
 
-const lspbin = `${appRoot}/../lsp/bin/computational-modeling-language-server-stdio`
+const lspbin = `${appRoot}/../lsp/bin/cm-language-server-stdio`
 
 var port = 7999
 var compmod2 = false
@@ -22,7 +22,7 @@ if (process.argv.includes("debug")) {
     } else {
         port = 8999
     }
-    
+
 }
 
 

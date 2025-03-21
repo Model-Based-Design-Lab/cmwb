@@ -1,11 +1,16 @@
-# note tired to update to 24.04, but it seems that the gradle build is not working anymore, todo: fix
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 WORKDIR /usr
 ENV TZ=Europe/Amsterdam
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update
-RUN apt-get -y install default-jdk dos2unix graphviz python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv libcairo2-dev curl git
+RUN apt-get -y install default-jdk dos2unix graphviz python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv libcairo2-dev curl git unzip
+
+# Install Maven 3.9.9
+RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz -o /tmp/apache-maven-3.9.9-bin.tar.gz \
+    && tar -xzf /tmp/apache-maven-3.9.9-bin.tar.gz -C /opt \
+    && ln -s /opt/apache-maven-3.9.9 /opt/maven \
+    && ln -s /opt/maven/bin/mvn /usr/bin/mvn
 
 # Install node v16
 RUN curl -s https://deb.nodesource.com/setup_16.x | bash
@@ -16,20 +21,15 @@ WORKDIR /usr/cmwb
 
 # compile xtext stuff
 COPY ./cmlang/src ./cmlang
-# create a failure when not all files are copied due to path length limitations; This is probably the longest path.
-# if you run into this, start the build with an explicit path starting with \\?\
-# docker build \\?\D:\path -t cmwb 
-RUN cat ./cmlang/info.computationalmodeling.lang.codegen.parent/info.computationalmodeling.lang.codegen.compiler/src/main/java/info/computationalmodeling/codegen/compiler/ComputationalModelingCompiler.java
 
 # install language code generation tools
-WORKDIR /usr/cmwb/cmlang/info.computationalmodeling.lang.codegen.parent
-# TODO: look for smarter ways to handle the line ending issues on Windows
-RUN dos2unix ./gradlew
-RUN chmod a+x ./gradlew
-RUN ./gradlew installdist
+WORKDIR /usr/cmwb/cmlang/info.computationalmodeling.lang.parent
+RUN mvn install
 RUN mkdir -p /usr/cmwb/webapp/codegen
-RUN cp -r ./info.computationalmodeling.lang.codegen.compiler/build/install/info.computationalmodeling.lang.codegen.compiler/* /usr/cmwb/webapp/codegen/
-
+RUN cp -r ./info.computationalmodeling.lang.codegen/target/cm-codegen-1.0.0-SNAPSHOT-unix.zip /usr/cmwb/webapp/codegen/
+RUN unzip /usr/cmwb/webapp/codegen/cm-codegen-1.0.0-SNAPSHOT-unix.zip -d /usr/cmwb/webapp/codegen/
+RUN dos2unix /usr/cmwb/webapp/codegen/bin/cm-codegen
+RUN chmod a+x /usr/cmwb/webapp/codegen/bin/cm-codegen
 
 # Python tools
 # install the python tools
@@ -89,4 +89,4 @@ RUN dos2unix /usr/cmwb/webapp/bin/latex2svg/latex2svg
 RUN chmod a+x /usr/cmwb/webapp/bin//latex2svg/latex2svg
 
 EXPOSE 7000
-CMD npm run startprod
+CMD ["npm", "run", "startprod"]

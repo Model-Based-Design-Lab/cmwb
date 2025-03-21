@@ -13,7 +13,7 @@ export const containerMongoDbHost = 'mongodb://mongodb-cmwb:27017'
 // codegen settings
 export const webAppRoot = `${appRoot}`
 export const binDir = `${webAppRoot}/bin`
-export const codegenBin = `${binDir}/codegen/bin/computational-modeling-codegen`
+export const codegenBin = `${binDir}/codegen/bin/cm-codegen`
 export const latex2SvgBin = `${appRoot}/bin/latex2svg/latex2svg`
 // export const graphvizBin = '/usr/bin/dot'
 export const graphvizBin = 'dot'
