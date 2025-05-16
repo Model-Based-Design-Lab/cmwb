@@ -1,4 +1,14 @@
-body,
+html,
+body {
+    font-family: "Montserrat", sans-serif;
+    color: rgb(0, 0, 0);
+    background-color: #ffffff;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+}
+
 h1,
 h2,
 h3,
@@ -77,12 +87,21 @@ a:active {
 
 nav {
     float: left;
-    width: 130px;
+    width: 110px;
     height: 100%;
-  }
+}
 
-article {
-    padding: 20px;
+section {
+    flex: 1;
+    display: flex !important;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.mainContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     overflow: auto;
 }
 
@@ -104,12 +123,10 @@ article {
   }
 
   .cmwb.footer {
-    position: fixed;
-    left:0;
-    bottom:0;
     background-color: rgb(246, 246, 246);
-    height:40px;
-    width:100%;
+    height: 40px;
+    flex-shrink: 0;
+    width: 100%;
 }
 
   .cmwb.foottext {

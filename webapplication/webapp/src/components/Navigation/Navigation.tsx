@@ -44,7 +44,7 @@ export default function Navigation(props: any) {
             </a>
             <a href={`${BASE_PATH}/documentation`}>
                 <FontAwesomeIcon className="w3-xxlarge" icon={faBookReader}></FontAwesomeIcon>
-                <p>Documentation</p>
+                <p>Docs</p>
             </a>
             <a href={`${BASE_PATH}/about`}>
                 <FontAwesomeIcon className="w3-xxlarge" icon={faInfoCircle}></FontAwesomeIcon>
