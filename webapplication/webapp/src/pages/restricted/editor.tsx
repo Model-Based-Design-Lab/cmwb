@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Spinner } from 'react-bootstrap'
 import Container from 'react-bootstrap/Container'
 import IconButton, { closeIcon, downloadIcon, saveIcon } from '../../components/Buttons/IconButton'
-import {CSREditor} from '../../components/Editor/CSREditor'
+import { CSREditor } from '../../components/Editor/CSREditor'
 import { ArtifactList, TArtifact } from '../../components/Modal/ArtifactList'
 import { Confirm } from '../../components/Modal/Confirm'
 import Notification from '../../components/Notification/Notification'
@@ -49,9 +49,9 @@ class Editor extends React.Component<Props, State> {
     // on client side, get the model, when the page is mounted
     public componentDidMount() {
         this.getModel(this.modelId)
-        .then( (model: any) => {
-            this.setState({loading: false, initialModel: model})
-        })
+            .then((model: any) => {
+                this.setState({ loading: false, initialModel: model })
+            })
     }
 
     private async getModel(modelId: string) {
@@ -90,11 +90,11 @@ class Editor extends React.Component<Props, State> {
     private async saveModel() {
         const newContent = this.getContent()
         ModelsController.saveModel(this.modelId, newContent)
-        .then(() => {
-            this.notification.current.showSuccess("Save", "Model was saved successfully.")
-            this.state.initialModel.content = newContent
-        })
-        .catch((reason: string) => this.notification.current.showError("Save", `An error occurred: ${reason}`))
+            .then(() => {
+                this.notification.current.showSuccess("Save", "Model was saved successfully.")
+                this.state.initialModel.content = newContent
+            })
+            .catch((reason: string) => this.notification.current.showError("Save", `An error occurred: ${reason}`))
     }
 
     private showArtifacts(artifacts: TArtifact[]) {
@@ -105,26 +105,35 @@ class Editor extends React.Component<Props, State> {
         openInNewWindow(getArtifactURL(a))
     }
 
-    static getInitialProps({ query } : {query: any}) {
+    static getInitialProps({ query }: { query: any }) {
         return { query }
     }
 
     render() {
-        if(this.state.loading){
-            return(
+        if (this.state.loading) {
+            return (
                 <Container fluid>
                     <Spinner animation="border" variant="primary" />Getting model... please wait.
-                </Container> 
+                </Container>
             )
         }
         return (
-            <Container fluid>
+            <Container fluid style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
                 <h1 className="capitalize">{DomainNames.get(this.domain)} Editor</h1>
                 <CSREditor localMode={this.props.localMode} language={languageIDs.get(this.domain)} initialContent={this.state.initialModel.content} ref={this.editor}></CSREditor>
-                <IconButton icon={saveIcon} label="Save" onClick={()=>{this.saveModel()}}></IconButton>{' '}
-                <IconButton icon={downloadIcon} label="Download" onClick={()=>{this.download()}}></IconButton>{' '}
-                <IconButton icon={closeIcon} label="Close" onClick={()=>{this.close()}}></IconButton>
-                <Notification ref={this.notification}/>
+                <Container fluid style={{
+                    marginBottom: '10px',
+                    display: 'flex',
+                    flexWrap: 'wrap', // Allow buttons to wrap to the next line
+                    gap: '10px', // Add space between buttons (both rows and columns)
+                    rowGap: '10px', // Specifically add space between rows
+                }}>
+
+                    <IconButton icon={saveIcon} label="Save" onClick={() => { this.saveModel() }}></IconButton>{' '}
+                    <IconButton icon={downloadIcon} label="Download" onClick={() => { this.download() }}></IconButton>{' '}
+                    <IconButton icon={closeIcon} label="Close" onClick={() => { this.close() }}></IconButton>
+                </Container>
+                <Notification ref={this.notification} />
                 <Confirm ref={this.confirmDialog}></Confirm>
                 <SelectionModal ref={this.selectionDialog}></SelectionModal>
                 <ArtifactList ref={this.artifactList}></ArtifactList>

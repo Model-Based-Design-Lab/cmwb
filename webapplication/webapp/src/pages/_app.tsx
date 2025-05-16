@@ -47,15 +47,21 @@ class MyApp extends App {
 
         return (
             <SSRProvider>
-                <Container fluid>
-                    <nav>
-                        <Navigation {...pageProps}></Navigation>
-                    </nav>
-                    <article>
-                        <Component {...pageProps} />
-                    </article>
-                    <Footer/>
-                </Container>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw' }}>
+                    <div className='cmwb topNavSection'>
+                        <nav>
+                            <Navigation {...pageProps}></Navigation>
+                        </nav>
+                        <section>
+                            <div className="mainContainer">
+                                <Component {...pageProps} />
+                            </div>
+                        </section>
+                    </div>
+                    <div className="cmwb footer">
+                        <Footer />
+                    </div>
+                </div>
             </SSRProvider>
         )
     }
