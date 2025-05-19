@@ -69,7 +69,7 @@ a:active {
 .AnalysisConsole {
     background-color:gray;
     padding: 20px;
-    margin: 20px;
+    margin: 20px 0px;
 }
 .AnalysisConsoleText {
     color: white;
