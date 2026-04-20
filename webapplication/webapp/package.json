@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
-    "postbuild": "cp -r ./src/config/distconfig ./dist/config/",
+    "postbuild": "cpx ./src/config/distconfig ./dist/config/",
     "nextbuild": "cd src && next build",
     "start": "node ./dist/server.js",
     "debug": "node ./dist/server.js debug",
@@ -75,6 +75,7 @@
     "@types/uid-safe": "^2.1.2",
     "@types/vscode": "^1.72.0",
     "@types/xmldom": "^0.1.31",
+    "cpx": "^1.5.0",
     "typescript": "^4.8.4"
   }
 }

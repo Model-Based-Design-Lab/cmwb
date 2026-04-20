@@ -3,8 +3,15 @@ FROM ubuntu:24.04
 WORKDIR /usr
 ENV TZ=Europe/Amsterdam
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apt-get update
-RUN apt-get -y install default-jdk dos2unix graphviz python3-pip build-essential libssl-dev libffi-dev python3-dev python3-venv libcairo2-dev curl git unzip
+
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository ppa:deadsnakes/ppa -y
+# Python needs to be limited to version 3.10 it seems for compatibility with the pygraph module
+RUN apt-get update && apt-get install -y \
+    python3.10 python3.10-venv python3.10-dev \
+    default-jdk dos2unix graphviz build-essential \
+    libssl-dev libffi-dev libcairo2-dev curl git unzip
+
 
 # Install Maven 3.9.9
 RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz -o /tmp/apache-maven-3.9.9-bin.tar.gz \
@@ -38,7 +45,7 @@ COPY ./cmlib/packages ./
 COPY ./cmtrace/package ./
 RUN mkdir -p /usr/cmwb/webapp/bin/python
 WORKDIR /usr/cmwb/webapp/bin/python
-RUN python3 -m venv compmod_env
+RUN python3.10 -m venv compmod_env
 COPY ./python/installpackages.sh /usr/cmwb/python/installpackages.sh
 RUN dos2unix /usr/cmwb/python/installpackages.sh
 RUN chmod a+x /usr/cmwb/python/installpackages.sh
@@ -75,7 +82,7 @@ RUN git rev-parse main > commithash.txt && \
 
 
 # adapt the code for the docker version
-RUN sed -i 's/RunningInLocalMode = false/RunningInLocalMode = true/g' ./src/config/config.ts
+RUN sed -i 's/RunningInContainerMode = false/RunningInContainerMode = true/g' ./src/config/config.ts
 
 RUN npm run build
 RUN npm run nextbuild

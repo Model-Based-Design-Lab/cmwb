@@ -1,5 +1,5 @@
 import express from 'express'
-import { BASE_PATH, BASE_PATH_RESTRICTED, DEBUG_PORT, PORT, RunningInLocalMode } from "./config/config"
+import { BASE_PATH, BASE_PATH_RESTRICTED, DEBUG_PORT, PORT, RunningInContainerMode, RunningInLocalMode } from "./config/config"
 import http from 'http'
 import next from 'next'
 import session from 'express-session'
@@ -40,6 +40,9 @@ if (process.argv.includes("debug")) {
 
 if (RunningInLocalMode) {
 	console.log('\x1b[31m', 'Running in Local mode.', '\x1b[0m')
+}
+if (RunningInContainerMode) {
+	console.log('\x1b[31m', 'Running in Container mode.', '\x1b[0m')
 }
 
 // create the Next.js app
@@ -85,7 +88,7 @@ app.prepare().then(async () => {
     // make a log
     logger.info("Computational Modeling Workbench Application Server Starting")
 
-    const dbHost = RunningInLocalMode?containerMongoDbHost:mongoDbHost
+    const dbHost = RunningInContainerMode?containerMongoDbHost:mongoDbHost
 
     // connect to the models database
     logger.info(`Connecting to database host: ${dbHost}`)
@@ -125,7 +128,7 @@ app.prepare().then(async () => {
     // handling everything else with Next.js
     server.get("*", handle)
 
-    if (! RunningInLocalMode) {
+    if ((! RunningInLocalMode) && (! RunningInContainerMode)) {
         // setup and verify SMTP
         setupSMTP(logger)
     }

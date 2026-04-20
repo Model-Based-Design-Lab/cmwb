@@ -1,6 +1,6 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
-import { ApiUsersAllFullGroups, ApiUsersAllGroups, ApiUsersChangePassword, ApiUsersCreateAccessGroup, ApiUsersDeleteAccount, ApiUsersGetActiveGroup, ApiUsersGetUser, ApiUsersGetUserGroups, ApiUsersGetUsers, ApiUsersRegisterAccessCode, ApiUsersSendResetPasswordLink, ApiUsersSetActiveGroup, ApiUsersSetPassword, ApiUsersUpdateUser, ApiUsersVerifyEmail, decodeQuery, errorResponse, okResponse, setProcessingRoute } from '../api/api'
+import { ApiUsersAllFullGroups, ApiUsersAllGroups, ApiUsersChangePassword, ApiUsersCreateAccessGroup, ApiUsersDeleteAccount, ApiUsersGetActiveGroup, ApiUsersGetUser, ApiUsersGetUserGroups, ApiUsersGetUsers, ApiUsersRegisterAccessCode, ApiUsersSendResetPasswordLink, ApiUsersSetActiveGroup, ApiUsersSetPassword, ApiUsersUpdateUser, ApiUsersVerifyEmail, errorResponse, okResponse, setProcessingRoute } from '../api/api'
 import { sessionUserEmail, sessionUserId } from '../authentication/utils'
 import { PasswordUserDb } from '../database/passwdb'
 import { ModelsDb } from '../database/modelsdb'
@@ -30,7 +30,7 @@ export function getUnrestrictedUsersAPI(modelsDb: ModelsDb, userDb: PasswordUser
     router.use(bodyParser.json())
 
     router.get(ApiUsersVerifyEmail, (req, res) => {
-        const {userId, token} = decodeQuery(req.query) as {userId: string, token: string}
+        const {userId, token} = req.query as {userId: string, token: string}
         userDb.verifyEmail(userId, token)
         .then( name => {
             res.send(okResponse({name: name}))
@@ -41,7 +41,7 @@ export function getUnrestrictedUsersAPI(modelsDb: ModelsDb, userDb: PasswordUser
     })
 
     router.get(ApiUsersSetPassword, (req, res) => {
-        const {userId, token, password} = decodeQuery(req.query) as {userId: string, token: string, password: string}
+        const {userId, token, password} = req.query as {userId: string, token: string, password: string}
         userDb.setPassword(userId, token, password)
         .then( () => {
             req.logout({}, (err: any) => {
@@ -54,7 +54,7 @@ export function getUnrestrictedUsersAPI(modelsDb: ModelsDb, userDb: PasswordUser
     })
 
     router.get(ApiUsersChangePassword, (req, res) => {
-        const {userId, oldPassword, newPassword} = decodeQuery(req.query) as {userId: string, oldPassword: string, newPassword: string}
+        const {userId, oldPassword, newPassword} = req.query as {userId: string, oldPassword: string, newPassword: string}
         userDb.changePassword(userId, oldPassword, newPassword)
         .then( () => {
             res.send(okResponse({}))
@@ -65,7 +65,7 @@ export function getUnrestrictedUsersAPI(modelsDb: ModelsDb, userDb: PasswordUser
     })
 
     router.get(ApiUsersSendResetPasswordLink, (req, res) => {
-        const {email} = decodeQuery(req.query) as {email: string}
+        const {email} = req.query as {email: string}
         userDb.sendResetPasswordLink(email)
         .then( () => {
             res.send(okResponse({}))
@@ -76,7 +76,7 @@ export function getUnrestrictedUsersAPI(modelsDb: ModelsDb, userDb: PasswordUser
     })
 
     router.get(ApiUsersDeleteAccount, async (req, res) => {
-        const {email, password} = decodeQuery(req.query) as {email: string, password: string}
+        const {email, password} = req.query as {email: string, password: string}
         const isAdmin = await CheckAdminAccess(userDb, sessionUserId(req))
         if (! isAdmin) {
             if (sessionUserEmail(req) != email){
@@ -113,7 +113,7 @@ export function getRestrictedUsersAPI(userDb: PasswordUserDb): express.Router {
     setQueryRouteReturningUserList(router, ApiUsersGetUsers, req=>userDb.getUsers(sessionUserId(req)), "Failed to get user list")
 
     setProcessingRoute(router, ApiUsersGetUser, req => {
-        const {userId} = decodeQuery(req.query) as {userId: string}
+        const {userId} = req.query as {userId: string}
         return userDb.getUser(sessionUserId(req), userId)
         }, (result: IExternalPasswordUser)=>{ return {user: result}}, "Failed to get user")
 
@@ -126,12 +126,12 @@ export function getRestrictedUsersAPI(userDb: PasswordUserDb): express.Router {
             }, (result: string)=>{ return {activeGroup: result}}, "Failed to get active group.")
         
     setProcessingRoute(router, ApiUsersSetActiveGroup, req => {
-        const {activeGroup} = decodeQuery(req.query) as {activeGroup: string}
+        const {activeGroup} = req.query as {activeGroup: string}
         return userDb.setUserActiveGroup(sessionUserId(req), activeGroup)
         }, ()=>{ return {}}, "Failed to set active group.")
 
     setProcessingRoute(router, ApiUsersUpdateUser, req => {
-        const {userId, name, group, accessibleGroups, isAdmin} = decodeQuery(req.query) as { userId: string, name: string, group: string, accessibleGroups: string, isAdmin: boolean }
+        const {userId, name, group, accessibleGroups, isAdmin} = req.query as { userId: string, name: string, group: string, accessibleGroups: string, isAdmin: boolean }
         return userDb.updateUser(sessionUserId(req), userId, name, group, accessibleGroups.split(","), isAdmin)
         }, ()=>{ return {}}, "Failed to update user.")
             
@@ -145,12 +145,12 @@ export function getRestrictedUsersAPI(userDb: PasswordUserDb): express.Router {
     
 
     setProcessingRoute(router, ApiUsersRegisterAccessCode, req => {
-        const {accessCode} = decodeQuery(req.query) as { accessCode: string }
+        const {accessCode} = req.query as { accessCode: string }
         return userDb.registerAccessCode(sessionUserId(req), accessCode)
         }, (groups: string[])=>{ return {groups}}, "Failed to register access code.")
     
     setProcessingRoute(router, ApiUsersCreateAccessGroup, req => {
-        const {name, accessCode} = decodeQuery(req.query) as { name: string, accessCode: string }
+        const {name, accessCode} = req.query as { name: string, accessCode: string }
         return userDb.createAccessGroup(sessionUserId(req), name, accessCode)
         }, ()=>{ return {}}, "Failed to create access group.")
     

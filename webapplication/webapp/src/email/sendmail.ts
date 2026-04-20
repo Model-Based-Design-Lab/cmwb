@@ -20,7 +20,14 @@ var  smtpConfig: {
 
 export async function setupSMTP(logger: Logger) {
 
-    smtpConfig = await fsReadJSONFile(smtpConfigFile)
+    try {
+        smtpConfig = await fsReadJSONFile(smtpConfigFile)
+    } catch (error) {
+        logger.error('Failed to read SMTP config file.')
+        logger.error(`Error type: ${error.name}`)
+        logger.error(`Error message: ${error.message}`)
+        return
+    }
 
     transporter = nodemailer.createTransport({
         host: smtpConfig.host,

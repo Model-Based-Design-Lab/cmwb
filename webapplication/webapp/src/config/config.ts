@@ -6,6 +6,7 @@ import { DomSDF, DomFSA, DomDTMC, DomLTL, DomRegEx, DomMPM, ModuleDTMC, ModuleFS
 // do not change, it is replaced by = true in the Dockerfile image build
 
 export const RunningInLocalMode = false
+export const RunningInContainerMode = false
 
 
 // on the server port should be 7000
@@ -14,7 +15,6 @@ export const PORT = 7000
 export const DEBUG_PORT = 8000
 
 // on the real server:
-// export const BASE_URL = `http://cm.ics.ele.tue.nl`
 export const BASE_URL = `https://computationalmodeling.info`
 export const CONTAINER_BASE_URL = `http://localhost:7999`
 // local version
