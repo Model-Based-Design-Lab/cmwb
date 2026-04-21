@@ -4,13 +4,11 @@ WORKDIR /usr
 ENV TZ=Europe/Amsterdam
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get update && apt-get install -y software-properties-common
-RUN add-apt-repository ppa:deadsnakes/ppa -y
-# Python needs to be limited to version 3.10 it seems for compatibility with the pygraph module
 RUN apt-get update && apt-get install -y \
-    python3.10 python3.10-venv python3.10-dev \
+    python3 python3-venv python3-dev \
     default-jdk dos2unix graphviz build-essential \
     libssl-dev libffi-dev libcairo2-dev curl git unzip
+
 
 
 # Install Maven 3.9.9
@@ -19,8 +17,8 @@ RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apac
     && ln -s /opt/apache-maven-3.9.9 /opt/maven \
     && ln -s /opt/maven/bin/mvn /usr/bin/mvn
 
-# Install node v16
-RUN curl -s https://deb.nodesource.com/setup_16.x | bash
+# Install node v21
+RUN curl -s https://deb.nodesource.com/setup_21.x | bash
 RUN apt-get -y install nodejs
 
 # Create directory
@@ -45,7 +43,7 @@ COPY ./cmlib/packages ./
 COPY ./cmtrace/package ./
 RUN mkdir -p /usr/cmwb/webapp/bin/python
 WORKDIR /usr/cmwb/webapp/bin/python
-RUN python3.10 -m venv compmod_env
+RUN python3 -m venv compmod_env
 COPY ./python/installpackages.sh /usr/cmwb/python/installpackages.sh
 RUN dos2unix /usr/cmwb/python/installpackages.sh
 RUN chmod a+x /usr/cmwb/python/installpackages.sh
