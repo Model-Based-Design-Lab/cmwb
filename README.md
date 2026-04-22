@@ -24,10 +24,12 @@ git submodule update --init
 The following will build and run the CMWB using [docker](docker.com).
 
 ``` shell
-docker-compose -f docker/docker-compose.yml up
+docker compose -f docker/docker-compose.yml up
 ```
 
 After building images and starting is complete, the CMWB can be started from <http://localhost>
+
+You can then log in with the email address: `cmwb@cmwb.org` and password `cmwb`.
 
 ### Windows Path Length Limit Issue
 
