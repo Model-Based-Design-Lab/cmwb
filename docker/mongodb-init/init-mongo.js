@@ -35,6 +35,16 @@ dbu.passwordusermodels.insertOne({
   }
 )
 
+// the general access group
+dbu.accessgroupmodels.insertOne(  {
+    _id: ObjectId('69ea6a5c998ab589809005a7'),
+    name: 'general',
+    accessCode: 'general',
+    id: '69ea6a5c998ab589809005a7',
+    __v: 0
+  }
+)
+
 
 dbm.compmodmodels.insertMany([
   {
